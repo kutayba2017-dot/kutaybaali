@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>CREVA | لوحة الإدارة</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0f1020;--sd:#15162b;--card:#1b1c36;--in:#12132a;--bd:rgba(255,255,255,.09);--tx:#f2f2f8;--mu:#9a9cb8;--p:#6C63FF;--c:#00D1FF;--ok:#2ED47A;--er:#ff6b81;--wr:#ffb347;--g:linear-gradient(135deg,#6C63FF,#00D1FF)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.6 Cairo,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+a{color:var(--c);text-decoration:none}
+#gate{min-height:100vh;display:grid;place-items:center;padding:20px}.gbox{width:min(420px,100%);background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px}
+.gbox h1{margin:10px 0 4px;font-size:22px}.mu{color:var(--mu);font-size:13px}
+input,select,textarea{width:100%;background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}textarea{min-height:90px;resize:vertical}
+label{display:block;color:var(--mu);font-size:13px;margin:10px 0 3px}
+.btn{border:1px solid var(--bd);background:var(--card);border-radius:9px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
+.btn:hover{border-color:var(--p)}.btn.pr{background:var(--g);border:0;color:#0d0d1a;font-weight:800}.btn.dg{color:var(--er)}.btn.sm{padding:3px 9px;font-size:12px}
+#shell{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
+aside{background:var(--sd);border-inline-end:1px solid var(--bd);padding:16px 12px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font:800 18px Cairo}.brand img{height:34px}
+aside button.nv{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:start;background:none;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;color:var(--mu);font-weight:600}
+aside button.nv:hover{background:rgba(255,255,255,.05)}aside button.nv.on{background:rgba(108,99,255,.18);color:var(--tx)}
+.n{background:var(--wr);color:#241a00;border-radius:99px;font-size:11px;font-weight:800;padding:0 8px;min-width:20px;text-align:center}
+.me{margin-top:auto;border-top:1px solid var(--bd);padding:12px 8px 0;font-size:12px;color:var(--mu);word-break:break-all}
+main{padding:22px 26px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.top h1{margin:0;font-size:24px}.acts{display:flex;gap:8px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.filters>*{flex:1 1 150px;max-width:260px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
+.kpi,.panel{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}.kpi small{color:var(--mu);display:block}.kpi b{font-size:26px;line-height:1.2}.kpi span{color:var(--mu);font-size:12px;display:block}
+.panel h3{margin:0 0 10px;font-size:16px}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-bottom:16px}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:14px}table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{padding:9px 12px;text-align:start;border-bottom:1px solid var(--bd);vertical-align:top;font-size:14px}th{color:var(--mu);font-weight:600;font-size:12px;background:rgba(255,255,255,.03);white-space:nowrap}tr:last-child td{border-bottom:0}
+td .mu{display:block}.ac{display:flex;gap:5px;flex-wrap:wrap}
+.b{display:inline-block;border-radius:99px;padding:0 10px;font-size:12px;font-weight:600;margin:1px 2px 1px 0;border:1px solid}
+.b.ok{color:var(--ok);border-color:var(--ok)}.b.wr{color:var(--wr);border-color:var(--wr)}.b.in{color:var(--c);border-color:var(--c)}.b.er{color:var(--er);border-color:var(--er)}.b.mt{color:var(--mu);border-color:var(--bd)}
+.pg{display:flex;gap:8px;align-items:center;justify-content:center;margin:14px 0;color:var(--mu)}
+.bulk{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(108,99,255,.16);border:1px solid var(--p);border-radius:12px;padding:8px 12px;margin-bottom:10px}
+.empty{padding:30px;text-align:center;color:var(--mu)}
+.todo{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd)}.todo:last-child{border:0}.todo div{min-width:0}
+.chart{width:100%;height:auto;color:var(--tx)}
+#modal{position:fixed;inset:0;background:rgba(5,6,15,.78);display:grid;place-items:center;padding:14px;z-index:50}#modal[hidden]{display:none}
+.mbox{background:var(--card);border:1px solid var(--bd);border-radius:16px;width:min(620px,100%);max-height:92vh;overflow:auto}.mh,.mf{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 18px}.mh{border-bottom:1px solid var(--bd)}.mf{border-top:1px solid var(--bd);justify-content:flex-start}#mb{padding:4px 18px 14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.chk{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--tx);font-size:14px}.chk input{width:auto}
+.vid{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000;margin-top:10px}
+#toast{position:fixed;inset:auto 0 22px 0;margin:auto;width:fit-content;max-width:92vw;background:var(--card);border:1px solid var(--c);padding:10px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}#toast.on{opacity:1}#toast.bad{border-color:var(--er)}
+@media(max-width:860px){#shell{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;overflow-x:auto;align-items:center;padding:10px}aside .brand,.me{display:none}aside button.nv{width:auto;white-space:nowrap}main{padding:16px 12px}.two{grid-template-columns:1fr}}
+[hidden]{display:none!important}.hb{display:grid;grid-template-columns:minmax(90px,150px) 1fr auto;gap:10px;align-items:center;margin:6px 0;font-size:13px}.hb .hl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ht{background:var(--in);border-radius:99px;height:10px;overflow:hidden}.ht i{display:block;height:100%;background:var(--g);border-radius:99px}.hb b{min-width:34px;text-align:end}
+.hint{background:rgba(0,209,255,.08);border:1px solid rgba(0,209,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--mu)}
+</style>
+</head>
+<body>
+<div id="gate" hidden><div class="gbox"><img src="icon.svg" alt="" height="44"><h1>لوحة إدارة CREVA</h1><p class="mu" id="gm">سجّل الدخول بحساب المدير.</p>
+<form id="lf"><label>البريد الإلكتروني</label><input name="e" type="email" dir="ltr" required autocomplete="email"><label>كلمة المرور</label><input name="w" type="password" dir="ltr" required autocomplete="current-password"><div style="margin-top:14px;display:flex;gap:8px"><button class="btn pr">دخول</button><a class="btn" href="/">الموقع</a></div></form>
+<div id="denied" hidden><p style="color:var(--er)">هذا الحساب ليس مديراً، فلا صلاحية له هنا.</p><button class="btn" data-a="out">تسجيل الخروج</button> <a class="btn" href="/">الموقع</a></div></div></div>
+<div id="shell" hidden>
+<aside><div class="brand"><img src="icon.svg" alt="">CREVA</div><div id="nav"></div><div class="me"><div id="me"></div><button class="btn sm" data-a="out" style="margin-top:8px">تسجيل الخروج</button> <a class="btn sm" href="/">الموقع</a></div></aside>
+<main id="main"></main></div>
+<div id="modal" hidden><div class="mbox"><div class="mh"><b id="mt"></b><button class="btn sm" data-a="mx">إغلاق</button></div><div id="mb"></div><div class="mf"><button class="btn pr" id="ms">حفظ</button><button class="btn" data-a="mx">إلغاء</button></div></div></div>
+<div id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.js"></script>
+<script>
+const SB_URL="https://czriikqhgkbsvixoibba.supabase.co",SB_KEY="sb_publishable_I5-9TJWX_hDH4hzaZD9wMw_wSp2-IXS";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=(s,r=document)=>r.querySelector(s);
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const num=n=>Number(n||0).toLocaleString('en-US');
+const fmt=d=>d?new Date(d).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'-';
+const wn=n=>{let d=String(n||'').replace(/\D/g,'');if(d.slice(0,2)=='00')d=d.slice(2);if(d[0]=='0')d='964'+d.slice(1);return d};
+const ref=id=>String(id).slice(0,8).toUpperCase();
+const GOV=['بغداد','نينوى','البصرة','أربيل','السليمانية','دهوك','كركوك','الأنبار','ديالى','صلاح الدين','بابل','كربلاء','النجف','واسط','ذي قار','ميسان','المثنى','القادسية','حلبجة'];
+const CATS0=['تصوير','مونتاج','تصميم','درون','صوت','إنتاج فني','عريف حفلات ومؤتمرات','صانع محتوى','كاتب ومحرر محتوى','ذكاء اصطناعي','إضاءة','تأجير استوديوهات','تأجير معدات','موديل - ذكر','موديل - أنثى'];
+let CATS=CATS0.slice();const allC=()=>{const a=D.cats.map(c=>c.name);D.pros.forEach(p=>{if(p.category&&!a.includes(p.category))a.push(p.category)});return a.length?a:CATS0};
+const optsx=(a,v)=>opts(!v||a.includes(v)?a:a.concat([v]),v);
+const opts=(a,sel,all)=>(all!=null?'<option value="">'+all+'</option>':'')+a.map(x=>'<option'+(x==sel?' selected':'')+'>'+esc(x)+'</option>').join('');
+const ig=v=>{v=String(v||'').trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i,'').replace(/[\/?#].*$/,'').replace(/^@/,'');return /^[A-Za-z0-9._]{1,30}$/.test(v)?v:''};
+const igl=u=>u?'<a href="https://instagram.com/'+esc(u)+'" target="_blank" rel="noopener">@'+esc(u)+'</a>':'';
+const wal=n=>n?'<a href="https://wa.me/'+wn(n)+'" target="_blank" rel="noopener" dir="ltr">'+esc(n)+'</a>':'';
+const emb=u=>{u=String(u||'');let m=u.match(/^https:\/\/(?:www\.|m\.)?(?:youtube\.com\/watch\?(?:[^#]*&)?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/);if(m)return'https://www.youtube.com/embed/'+m[1];m=u.match(/^https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([\w-]{10,})/);return m?'https://drive.google.com/file/d/'+m[1]+'/preview':''};
+let ME=null,V='dash';const D={pros:[],cont:{},works:[],bk:[],req:[],users:[],um:{},cfg:{},cats:[],log:[]};let LT='';
+const S={pros:{q:'',st:'',cat:'',gov:'',pg:1,sel:new Set()},works:{q:'',st:'',pro:'',pg:1,sel:new Set()},bk:{q:'',st:'',from:'',to:'',pg:1},req:{q:'',st:'',pg:1},users:{q:'',pg:1},log:{q:'',pg:1}};
+const MODAL={save:null},ACT={},LIST={},PS=25;
+function toast(m,bad){const t=$('#toast');t.textContent=m;t.className=bad?'bad on':'on';clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',4500)}
+const bad=m=>{toast(m,1);return false};
+function modal(title,body,onSave,label){$('#mt').textContent=title;$('#mb').innerHTML=body;$('#ms').hidden=!onSave;$('#ms').textContent=label||'حفظ';MODAL.save=onSave;$('#modal').hidden=false}
+function closeModal(){$('#modal').hidden=true;MODAL.save=null}
+function dl(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type||'text/plain'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function csv(name,head,rows){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';dl(name,'\ufeff'+[head].concat(rows).map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
+const proName=id=>{const p=D.pros.find(x=>x.id==id);return p?p.name:'(محذوف)'};
+const userMail=id=>(D.um[id]||{}).email||'';
+function page(rows,s){const pages=Math.max(1,Math.ceil(rows.length/PS));if(s.pg>pages)s.pg=pages;return{items:rows.slice((s.pg-1)*PS,s.pg*PS),pager:rows.length>PS?'<div class="pg"><button class="btn sm" data-a="pg" data-d="1" '+(s.pg>=pages?'disabled':'')+'>التالي</button><span>صفحة '+s.pg+' من '+pages+' ('+num(rows.length)+')</span><button class="btn sm" data-a="pg" data-d="-1" '+(s.pg<=1?'disabled':'')+'>السابق</button></div>':''}}
+function tbl(head,rows){return rows.length?'<div class="tw"><table><thead><tr>'+head.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>':'<div class="empty">لا توجد نتائج.</div>'}
+const bt=(a,id,t,cls,extra)=>'<button class="btn sm '+(cls||'')+'" data-a="'+a+'" data-id="'+esc(id)+'"'+(extra||'')+'>'+t+'</button>';
+const sel=(k,id)=>'<input type="checkbox" data-a="sel" data-id="'+esc(id)+'" '+(S[k].sel.has(id)?'checked':'')+' aria-label="تحديد">';
+function bulkBar(k,btns){const n=S[k].sel.size;return n?'<div class="bulk"><b>محدد: '+n+'</b>'+btns.map(b=>'<button class="btn sm '+(b[2]||'')+'" data-a="bulk" data-t="'+k+'" data-k="'+b[0]+'">'+b[1]+'</button>').join('')+'<button class="btn sm" data-a="clr" data-t="'+k+'">إلغاء التحديد</button></div>':''}
+function shell(title,acts,filters){$('#main').innerHTML='<div class="top"><h1>'+title+'</h1><div class="acts">'+(acts||'')+'</div></div>'+(filters?'<div class="filters">'+filters+'</div>':'')+'<div id="kp"></div><div id="list"></div>'}
+const fin=(k,f,ph,type)=>'<input data-f="'+f+'" '+(type?'type="'+type+'" ':'')+'placeholder="'+ph+'" value="'+esc(S[k][f])+'">';
+const fsel=(k,f,o)=>'<select data-f="'+f+'">'+o+'</select>';
+// ---------------- data ----------------
+async function loadAll(){
+ const q=(t,o)=>sb.from(t).select('*').order(o,{ascending:false}).limit(2000);
+ const R=await Promise.all([q('pros','created_at'),sb.from('pro_contacts').select('*'),q('works','created_at'),q('bookings','created_at'),q('requests','created_at'),sb.rpc('admin_users'),sb.from('settings').select('*'),sb.from('categories').select('*').order('sort',{ascending:true}).order('name'),sb.from('admin_log').select('*').order('at',{ascending:false}).limit(1000)]);
+ const [p,c,w,b,r,u,s,cg,lg]=R;D.cats=cg.data||[];D.log=lg.data||[];{const on=D.cats.filter(x=>x.active).map(x=>x.name);CATS=on.length?on:CATS0.slice()}D.pros=p.data||[];D.cont={};(c.data||[]).forEach(x=>D.cont[x.pro_id]=x);D.works=w.data||[];D.bk=b.data||[];D.req=r.data||[];D.users=u.data||[];D.um={};D.users.forEach(x=>D.um[x.id]=x);D.cfg={};(s.data||[]).forEach(x=>D.cfg[x.key]=x.value);
+ const e=R.find(x=>x.error);if(e)toast('تعذر تحميل بعض البيانات: '+e.error.message+' — هل شغّلت admin.sql و admin2.sql؟',1);
+}
+async function logA(a,t){try{await sb.from('admin_log').insert({admin_email:ME.email,action:a,target:t||null,view:V})}catch(e){}}
+async function refresh(msg){if(msg&&msg!=='تم التحديث')await logA(msg,LT);await loadAll();nav();(LIST[V]||(()=>{}))();if(msg)toast(msg)}
+async function run(p,msg){const r=await p;if(r.error){toast(r.error.message,1);return false}await refresh(msg);return true}
+// ---------------- nav ----------------
+const VIEWS=[['dash','نظرة عامة'],['stats','إحصاءات'],['pros','المحترفون'],['works','الأعمال'],['bk','الحجوزات'],['req','الطلبات'],['users','المستخدمون'],['cats','الأقسام'],['content','محتوى الموقع'],['cfg','الإعدادات'],['log','سجل النشاط']];
+const cnt={pros:()=>D.pros.filter(p=>!p.approved).length,works:()=>D.works.filter(w=>!w.approved).length,bk:()=>D.bk.filter(b=>b.status=='pending').length,req:()=>D.req.filter(r=>!r.handled).length};
+function nav(){$('#nav').innerHTML=VIEWS.map(v=>'<button class="nv'+(V==v[0]?' on':'')+'" data-a="go" data-id="'+v[0]+'"><span>'+v[1]+'</span>'+(cnt[v[0]]&&cnt[v[0]]()?'<span class="n">'+cnt[v[0]]()+'</span>':'')+'</button>').join('')}
+function go(v){V=VIEWS.some(x=>x[0]==v)?v:'dash';history.replaceState(null,'','#'+V);nav();LIST[V]()}
+// ---------------- dashboard ----------------
+function chart14(){const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-i);days.push(d)}
+ const c=days.map(d=>D.bk.filter(b=>{const x=new Date(b.created_at);x.setHours(0,0,0,0);return +x==+d}).length),mx=Math.max(1,...c);
+ return'<svg viewBox="0 0 560 140" class="chart" role="img" aria-label="الحجوزات خلال 14 يوماً"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00D1FF"/><stop offset="1" stop-color="#6C63FF"/></linearGradient></defs>'+c.map((n,i)=>{const h=Math.round(n/mx*86);return'<rect x="'+(i*40+8)+'" y="'+(112-h)+'" width="24" height="'+Math.max(h,2)+'" rx="5" fill="url(#cg)" opacity="'+(n?1:.25)+'"/><text x="'+(i*40+20)+'" y="'+(106-h)+'" text-anchor="middle" font-size="11" fill="currentColor">'+(n||'')+'</text><text x="'+(i*40+20)+'" y="130" text-anchor="middle" font-size="10" fill="#9a9cb8">'+days[i].getDate()+'</text>'}).join('')+'</svg>'}
+LIST.dash=function(){
+ shell('نظرة عامة','<button class="btn" data-a="reload">تحديث</button>');
+ const now=new Date(),mo=now.getMonth(),yr=now.getFullYear(),paid=D.bk.filter(b=>b.status=='paid'),pend=D.bk.filter(b=>b.status=='pending');
+ const sum=a=>a.reduce((t,b)=>t+(b.deposit||0),0),inM=paid.filter(b=>{const d=new Date(b.paid_at||b.created_at);return d.getMonth()==mo&&d.getFullYear()==yr});
+ const week=Date.now()-7*864e5,kp=(l,v,s)=>'<div class="kpi"><small>'+l+'</small><b>'+v+'</b><span>'+s+'</span></div>';
+ const todo=(t,rows)=>'<div class="panel"><h3>'+t+'</h3>'+(rows.length?rows.join(''):'<div class="mu">لا شيء بانتظارك.</div>')+'</div>';
+ $('#list').innerHTML='<div class="kpis">'+
+  kp('المحترفون',num(D.pros.length),'معتمد '+D.pros.filter(p=>p.approved).length+' | موثق '+D.pros.filter(p=>p.verified).length+' | بانتظار '+cnt.pros())+
+  kp('الأعمال',num(D.works.length),'بانتظار المراجعة '+cnt.works())+
+  kp('الحجوزات',num(D.bk.length),'بانتظار العربون '+pend.length+' | مؤكدة '+paid.length)+
+  kp('عربون مؤكد',num(sum(paid))+' د.ع','هذا الشهر '+num(sum(inM))+' | قيد الانتظار '+num(sum(pend)))+
+  kp('الطلبات',num(D.req.length),'غير معالج '+cnt.req())+
+  kp('المستخدمون',num(D.users.length),'جدد هذا الأسبوع '+D.users.filter(u=>new Date(u.created_at)>week).length)+'</div>'+
+  '<div class="cols">'+todo('محترفون بانتظار الموافقة',D.pros.filter(p=>!p.approved).slice(0,6).map(p=>'<div class="todo"><div><b>'+esc(p.name)+'</b><span class="mu">'+esc(p.category)+' - '+esc(p.gov)+'</span></div>'+bt('pa',p.id,'اعتماد','pr')+'</div>'))+
+  todo('أعمال بانتظار المراجعة',D.works.filter(w=>!w.approved).slice(0,6).map(w=>'<div class="todo"><div><b>'+esc(w.title||'(بلا عنوان)')+'</b><span class="mu">'+esc(proName(w.pro_id))+'</span></div><div class="ac">'+bt('wp',w.id,'معاينة')+bt('wa',w.id,'اعتماد','pr')+'</div></div>'))+
+  todo('حجوزات بانتظار العربون',pend.slice(0,6).map(b=>'<div class="todo"><div><b>'+ref(b.id)+' - '+esc(proName(b.pro_id))+'</b><span class="mu">عربون '+num(b.deposit)+' د.ع</span></div>'+bt('bs',b.id,'تأكيد العربون','pr',' data-s="paid"')+'</div>'))+
+  todo('طلبات غير معالجة',D.req.filter(r=>!r.handled).slice(0,6).map(r=>'<div class="todo"><div><b>'+esc(r.type)+' - '+esc(r.gov)+'</b><span class="mu" dir="ltr">'+esc(r.contact)+'</span></div>'+bt('rh',r.id,'تمت المعالجة','pr')+'</div>'))+'</div>'+
+  '<div class="panel"><h3>الحجوزات خلال آخر 14 يوماً</h3>'+chart14()+'</div>';
+};
+// ---------------- professionals ----------------
+const proBadges=p=>(p.approved?'<span class="b ok">معتمد</span>':'<span class="b wr">بانتظار الموافقة</span>')+(p.verified?'<span class="b in">موثق</span>':'');
+LIST.pros=function(){
+ const s=S.pros,q=s.q.trim().toLowerCase();
+ const rows=D.pros.filter(p=>(!s.st||(s.st=='pending'&&!p.approved)||(s.st=='approved'&&p.approved)||(s.st=='verified'&&p.verified))&&(!s.cat||p.category==s.cat)&&(!s.gov||p.gov==s.gov)&&(!q||[p.name,p.spec,p.category,p.gov,(D.cont[p.id]||{}).whatsapp,userMail(p.user_id)].join(' ').toLowerCase().includes(q)));
+ const pg=page(rows,s);
+ $('#list').innerHTML=bulkBar('pros',[['approve','اعتماد المحدد'],['verify','توثيق المحدد'],['del','حذف المحدد','dg']])+tbl(['<input type="checkbox" data-a="selall" aria-label="تحديد الكل">','المحترف','التخصص','المحافظة','الخبرة / السعر','التواصل','الحالة','الأعمال / الحجوزات','إجراءات'],pg.items.map(p=>{const c=D.cont[p.id]||{};return[sel('pros',p.id),'<b>'+esc(p.name)+'</b><span class="mu">'+esc(userMail(p.user_id))+'</span><span class="mu">'+fmt(p.created_at)+'</span>',esc(p.category)+(p.spec?'<span class="mu">'+esc(p.spec)+'</span>':''),esc(p.gov),(p.years||0)+' سنة<span class="mu">'+(p.price?num(p.price)+' د.ع':'حسب الاتفاق')+'</span>',wal(c.whatsapp)+'<span class="mu">'+(igl(c.instagram)||'-')+'</span>',proBadges(p),'<a href="#" data-a="pw" data-id="'+p.id+'">'+D.works.filter(w=>w.pro_id==p.id).length+' عمل</a><span class="mu">'+D.bk.filter(b=>b.pro_id==p.id).length+' حجز</span>','<div class="ac">'+bt('pa',p.id,p.approved?'إلغاء الاعتماد':'اعتماد',p.approved?'':'pr')+bt('pv',p.id,p.verified?'إلغاء التوثيق':'توثيق')+bt('pe',p.id,'تعديل')+bt('pd',p.id,'حذف','dg')+'</div>']}))+pg.pager;
+};
+function proShell(){shell('المحترفون','<button class="btn pr" data-a="pn">+ إضافة محترف</button><button class="btn" data-a="pcsv">تصدير CSV</button>',
+ fin('pros','q','بحث بالاسم أو الرقم أو البريد')+fsel('pros','st','<option value="">كل الحالات</option><option value="pending">بانتظار الموافقة</option><option value="approved">معتمد</option><option value="verified">موثق</option>')+fsel('pros','cat',opts(allC(),S.pros.cat,'كل التخصصات'))+fsel('pros','gov',opts(GOV,S.pros.gov,'كل المحافظات')));
+ $('[data-f=st]').value=S.pros.st}
+const proForm=p=>{p=p||{};const c=D.cont[p.id]||{};return'<div class="two"><div><label>الاسم</label><input id="f_name" maxlength="120" value="'+esc(p.name)+'"></div><div><label>التخصص</label><select id="f_cat">'+optsx(CATS,p.category)+'</select></div>'+
+ '<div><label>وصف مختصر</label><input id="f_spec" maxlength="120" value="'+esc(p.spec)+'"></div><div><label>المحافظة</label><select id="f_gov">'+optsx(GOV,p.gov)+'</select></div>'+
+ '<div><label>سنوات الخبرة</label><input id="f_years" type="number" min="0" max="60" value="'+(p.years||0)+'"></div><div><label>سعر البداية (د.ع، 0 = حسب الاتفاق)</label><input id="f_price" type="number" min="0" step="1000" value="'+(p.price||0)+'"></div>'+
+ '<div><label>واتساب (خاص)</label><input id="f_wa" dir="ltr" maxlength="30" value="'+esc(c.whatsapp)+'"></div><div><label>إنستغرام (خاص)</label><input id="f_ig" dir="ltr" maxlength="60" value="'+esc(c.instagram)+'"></div></div>'+
+ '<label>صاحب الحساب (ليتمكن من إدارة ملفه وأعماله)</label><select id="f_own"><option value="">'+(p.id?'(بدون تغيير)':'حسابي أنا')+'</option>'+D.users.map(u=>'<option value="'+u.id+'"'+(p.user_id==u.id?' selected':'')+'>'+esc(u.email)+'</option>').join('')+'</select>'+
+ '<label class="chk"><input id="f_ap" type="checkbox" '+(p.id?(p.approved?'checked':''):'checked')+'> معتمد (يظهر في الموقع)</label><label class="chk"><input id="f_vf" type="checkbox" '+(p.verified?'checked':'')+'> موثق</label>'};
+async function proSave(p){LT=($('#f_name')||{}).value||'';
+ const g=i=>$('#f_'+i),name=g('name').value.trim(),wa=g('wa').value.trim(),ig2=g('ig').value.trim(),iv=ig(ig2);
+ if(!name||!wa)return bad('الاسم ورقم الواتساب مطلوبان');if(ig2&&!iv)return bad('اسم إنستغرام غير صالح');
+ const row={name,category:g('cat').value,spec:g('spec').value.trim()||null,gov:g('gov').value,years:+g('years').value||0,price:+g('price').value||0,approved:g('ap').checked,verified:g('vf').checked};
+ let id=p&&p.id;if(g('own').value)row.user_id=g('own').value;
+ if(id){const r=await sb.from('pros').update(row).eq('id',id);if(r.error)return bad(r.error.message)}
+ else{row.user_id=row.user_id||ME.id;const r=await sb.from('pros').insert(row).select('id').single();if(r.error)return bad(r.error.message);id=r.data.id}
+ const c=await sb.from('pro_contacts').upsert({pro_id:id,whatsapp:wa,instagram:iv||null},{onConflict:'pro_id'});if(c.error)return bad(c.error.message);
+ await refresh('تم حفظ المحترف')}
+// ---------------- works ----------------
+LIST.works=function(){
+ const s=S.works,q=s.q.trim().toLowerCase();
+ const rows=D.works.filter(w=>(!s.st||(s.st=='pending'&&!w.approved)||(s.st=='approved'&&w.approved))&&(!s.pro||w.pro_id==s.pro)&&(!q||[w.title,w.video_url,proName(w.pro_id)].join(' ').toLowerCase().includes(q)));
+ const pg=page(rows,s);
+ $('#list').innerHTML=bulkBar('works',[['approve','اعتماد المحدد'],['unapprove','إخفاء المحدد'],['del','حذف المحدد','dg']])+tbl(['<input type="checkbox" data-a="selall" aria-label="تحديد الكل">','العمل','المحترف','النوع','الحالة','التاريخ','إجراءات'],pg.items.map(w=>[sel('works',w.id),'<b>'+esc(w.title||'(بلا عنوان)')+'</b><span class="mu" dir="ltr">'+esc(String(w.video_url||'').slice(0,60))+'</span>',esc(proName(w.pro_id)),/youtu/i.test(w.video_url||'')?'يوتيوب':/drive\.google/i.test(w.video_url||'')?'جوجل درايف':'غير معروف',w.approved?'<span class="b ok">ظاهر</span>':'<span class="b wr">بانتظار المراجعة</span>',fmt(w.created_at),'<div class="ac">'+bt('wp',w.id,'معاينة')+bt('wa',w.id,w.approved?'إخفاء':'اعتماد',w.approved?'':'pr')+bt('wd',w.id,'حذف','dg')+'</div>']))+pg.pager;
+};
+function worksShell(){shell('الأعمال','','<input data-f="q" placeholder="بحث بالعنوان أو المحترف" value="'+esc(S.works.q)+'">'+fsel('works','st','<option value="">كل الحالات</option><option value="pending">بانتظار المراجعة</option><option value="approved">ظاهر</option>')+'<select data-f="pro"><option value="">كل المحترفين</option>'+D.pros.map(p=>'<option value="'+p.id+'"'+(S.works.pro==p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select>');$('[data-f=st]').value=S.works.st}
+// ---------------- bookings ----------------
+const BST={pending:['بانتظار العربون','wr'],paid:['العربون مؤكد','ok'],cancelled:['ملغى','mt']};
+LIST.bk=function(){
+ const s=S.bk,q=s.q.trim().toLowerCase();
+ const rows=D.bk.filter(b=>(!s.st||b.status==s.st)&&(!s.from||b.created_at>=s.from)&&(!s.to||b.created_at<=s.to+'T23:59:59')&&(!q||[ref(b.id),proName(b.pro_id),userMail(b.client_id),b.client_contact,b.project,b.gov].join(' ').toLowerCase().includes(q)));
+ const sum=st=>rows.filter(b=>b.status==st).reduce((t,b)=>t+(b.deposit||0),0),n=st=>rows.filter(b=>b.status==st).length;
+ $('#kp').innerHTML='<div class="kpis"><div class="kpi"><small>بانتظار العربون</small><b>'+n('pending')+'</b><span>'+num(sum('pending'))+' د.ع</span></div><div class="kpi"><small>عربون مؤكد</small><b>'+n('paid')+'</b><span>'+num(sum('paid'))+' د.ع</span></div><div class="kpi"><small>ملغاة</small><b>'+n('cancelled')+'</b><span>'+num(sum('cancelled'))+' د.ع</span></div></div>';
+ const pg=page(rows,s);
+ $('#list').innerHTML=tbl(['الحجز','المحترف','الزبون','المشروع','الأجر / العربون','الحالة','التواريخ','إجراءات'],pg.items.map(b=>{const c=D.cont[b.pro_id]||{},st=BST[b.status]||[b.status,'mt'];return[
+  '<b>'+ref(b.id)+'</b>',esc(proName(b.pro_id))+'<span class="mu">'+(wal(c.whatsapp)||'')+'</span><span class="mu">'+(igl(c.instagram)||'')+'</span>',
+  esc(userMail(b.client_id))+'<span class="mu">'+wal(b.client_contact)+'</span><span class="mu">'+(igl(b.client_instagram)||'')+'</span>',
+  esc(b.project)+' - '+esc(b.gov)+'<span class="mu">'+esc(b.date||'')+'</span>'+(b.details?'<span class="mu" title="'+esc(b.details)+'">'+esc(String(b.details).slice(0,50))+'</span>':''),
+  num(b.fee)+' د.ع<span class="mu">عربون '+num(b.deposit)+'</span>','<span class="b '+st[1]+'">'+st[0]+'</span>','أُنشئ: '+fmt(b.created_at)+(b.paid_at?'<span class="mu">دُفع: '+fmt(b.paid_at)+'</span>':''),
+  '<div class="ac">'+(b.status=='pending'?bt('bs',b.id,'تأكيد العربون','pr',' data-s="paid"'):'')+(b.status!='cancelled'?bt('bs',b.id,'إلغاء','',' data-s="cancelled"'):'')+(b.status!='pending'?bt('bs',b.id,'إعادة لحالة الانتظار','',' data-s="pending"'):'')+bt('bd',b.id,'حذف','dg')+'</div>']}))+pg.pager;
+};
+function bkShell(){shell('الحجوزات','<button class="btn" data-a="bcsv">تصدير CSV</button>','<input data-f="q" placeholder="رقم الحجز أو المحترف أو الزبون" value="'+esc(S.bk.q)+'">'+fsel('bk','st','<option value="">كل الحالات</option><option value="pending">بانتظار العربون</option><option value="paid">العربون مؤكد</option><option value="cancelled">ملغى</option>')+'<input data-f="from" type="date" title="من" value="'+esc(S.bk.from)+'"><input data-f="to" type="date" title="إلى" value="'+esc(S.bk.to)+'">');$('[data-f=st]').value=S.bk.st}
+// ---------------- requests ----------------
+LIST.req=function(){
+ const s=S.req,q=s.q.trim().toLowerCase();
+ const rows=D.req.filter(r=>(!s.st||(s.st=='open'&&!r.handled)||(s.st=='done'&&r.handled))&&(!q||[r.type,r.gov,r.contact,r.details,r.admin_note].join(' ').toLowerCase().includes(q)));
+ const pg=page(rows,s);
+ $('#list').innerHTML=tbl(['الطلب','التواصل','التفاصيل','ملاحظة الإدارة','الحالة','إجراءات'],pg.items.map(r=>['<b>'+esc(r.type)+'</b><span class="mu">'+esc(r.gov)+' | '+esc(r.date||'-')+'</span><span class="mu">ميزانية: '+esc(r.budget||'-')+'</span><span class="mu">'+fmt(r.created_at)+'</span>',wal(r.contact),esc(r.details||''),esc(r.admin_note||'-'),r.handled?'<span class="b ok">تمت المعالجة</span>':'<span class="b wr">جديد</span>','<div class="ac">'+bt('rh',r.id,r.handled?'إعادة فتح':'تمت المعالجة',r.handled?'':'pr')+bt('rn',r.id,'ملاحظة')+bt('rd',r.id,'حذف','dg')+'</div>']))+pg.pager;
+};
+function reqShell(){shell('الطلبات','','<input data-f="q" placeholder="بحث" value="'+esc(S.req.q)+'">'+fsel('req','st','<option value="">كل الطلبات</option><option value="open">غير معالجة</option><option value="done">تمت معالجتها</option>'));$('[data-f=st]').value=S.req.st}
+// ---------------- users ----------------
+LIST.users=function(){
+ const s=S.users,q=s.q.trim().toLowerCase();
+ const rows=D.users.filter(u=>!q||String(u.email).toLowerCase().includes(q));const pg=page(rows,s);
+ $('#list').innerHTML=tbl(['المستخدم','التسجيل / آخر دخول','الحالة','الملفات المهنية','الحجوزات','إجراءات'],pg.items.map(u=>{const mine=D.pros.filter(p=>p.user_id==u.id);return['<b dir="ltr">'+esc(u.email)+'</b>',fmt(u.created_at)+'<span class="mu">'+fmt(u.last_sign_in_at)+'</span>',(u.is_admin?'<span class="b in">مدير</span>':'')+(u.confirmed?'<span class="b ok">مفعّل</span>':'<span class="b wr">غير مؤكد</span>'),mine.length?mine.map(p=>esc(p.name)).join('، '):'-',u.booking_count||0,'<div class="ac">'+bt('ua',u.id,u.is_admin?'إزالة الإدارة':'جعله مديراً')+(mine.length?bt('uv',u.id,'ملفاته'):'')+(u.booking_count?bt('ub',u.id,'حجوزاته'):'')+(u.id==ME.id?'':bt('ud',u.id,'حذف الحساب','dg'))+'</div>']}))+pg.pager;
+};
+function usersShell(){shell('المستخدمون','<button class="btn" data-a="ucsv">تصدير CSV</button>','<input data-f="q" placeholder="بحث بالبريد" value="'+esc(S.users.q)+'">')}
+// ---------------- settings ----------------
+LIST.cfg=function(){
+ const c=D.cfg;
+ $('#list').innerHTML='<div class="panel" style="max-width:720px"><h3>إعدادات المنصة</h3><label>نسبة العربون من الأجر (%)</label><input id="c_pct" type="number" min="1" max="100" value="'+esc(c.deposit_percent||10)+'"><div class="mu">تسري على الحجوزات الجديدة فقط، والحجوزات القديمة تبقى بعربونها.</div>'+
+ '<label>تعليمات دفع العربون (تظهر للزبون في صفحة حجوزاتي)</label><textarea id="c_pay">'+esc(c.pay_info||'')+'</textarea>'+
+ '<label>إعلان أعلى الموقع (اتركه فارغاً لإخفائه)</label><input id="c_notice" maxlength="200" value="'+esc(c.site_notice||'')+'">'+
+ '<div style="margin-top:14px"><button class="btn pr" data-a="savecfg">حفظ الإعدادات</button></div></div>'+
+ '<div class="panel" style="max-width:720px;margin-top:14px"><h3>المديرون</h3>'+(D.users.filter(u=>u.is_admin).map(u=>'<div class="todo"><span dir="ltr">'+esc(u.email)+'</span></div>').join('')||'<div class="mu">-</div>')+'</div>'+
+ '<div class="panel" style="max-width:720px;margin-top:14px"><h3>نسخة احتياطية</h3><p class="mu">تنزّل كل البيانات (المحترفون والأعمال والحجوزات والطلبات والإعدادات) في ملف JSON واحد.</p><button class="btn" data-a="backup">تنزيل نسخة احتياطية</button></div>';
+};
+
+
+// ---------------- admin 2: stats, categories, content, log ----------------
+function tlabel(a,id,b){try{
+ if(['pa','pv','pe','pd'].includes(a))return proName(id);
+ if(['wa','wd','wp'].includes(a)){const w=D.works.find(x=>x.id==id);return w?(w.title||'(بلا عنوان)')+' - '+proName(w.pro_id):''}
+ if(['bs','bd'].includes(a)){const k=D.bk.find(x=>x.id==id);return k?ref(k.id)+' - '+proName(k.pro_id):''}
+ if(['rh','rn','rd'].includes(a)){const r=D.req.find(x=>x.id==id);return r?r.type+' - '+r.gov:''}
+ if(['ua','ud'].includes(a))return userMail(id);
+ if(a=='bulk')return b.dataset.t+': '+S[b.dataset.t].sel.size+' عنصر';
+ if(a.indexOf('cat_')==0)return id||'';
+}catch(e){}return ''}
+const MONTHS=n=>{const o=[];const d=new Date();d.setDate(1);d.setHours(0,0,0,0);for(let i=n-1;i>=0;i--){const x=new Date(d);x.setMonth(d.getMonth()-i);o.push(x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0'))}return o};
+const mk=d=>{const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')};
+function hbars(items,fmtv){const mx=Math.max(1,...items.map(i=>i[1]));return items.length?items.map(i=>'<div class="hb"><span class="hl" title="'+esc(i[0])+'">'+esc(i[0])+'</span><div class="ht"><i style="width:'+Math.max(2,Math.round(i[1]/mx*100))+'%"></i></div><b>'+(fmtv?fmtv(i[1]):num(i[1]))+'</b></div>').join(''):'<div class="mu">لا بيانات بعد.</div>'}
+const topN=(arr,f,n)=>{const m={};arr.forEach(x=>{const k=f(x);if(k)m[k]=(m[k]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,n)};
+LIST.stats=function(){
+ const paid=D.bk.filter(b=>b.status=='paid'),pend=D.bk.filter(b=>b.status=='pending'),canc=D.bk.filter(b=>b.status=='cancelled');
+ const sum=a=>a.reduce((t,b)=>t+(b.deposit||0),0),done=paid.length+canc.length;
+ const conv=D.bk.length?Math.round(paid.length/D.bk.length*100):0,avg=D.bk.length?Math.round(D.bk.reduce((t,b)=>t+(b.fee||0),0)/D.bk.length):0;
+ const ms=MONTHS(6),mk2=m=>new Date(m+'-01').toLocaleDateString('ar-IQ',{month:'long',year:'numeric'});
+ const rev=ms.map(m=>[mk2(m),sum(paid.filter(b=>mk(b.paid_at||b.created_at)==m))]),cb=ms.map(m=>[mk2(m),D.bk.filter(b=>mk(b.created_at)==m).length]),nu=ms.map(m=>[mk2(m),D.users.filter(u=>mk(u.created_at)==m).length]);
+ const byPro={};paid.forEach(b=>{byPro[b.pro_id]=(byPro[b.pro_id]||0)+(b.deposit||0)});
+ const topPros=Object.entries(byPro).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>[proName(x[0]),x[1]]);
+ const kp=(l,v,s)=>'<div class="kpi"><small>'+l+'</small><b>'+v+'</b><span>'+s+'</span></div>',pn=(t,h)=>'<div class="panel"><h3>'+t+'</h3>'+h+'</div>';
+ $('#list').innerHTML='<div class="kpis">'+kp('إيراد العربون المؤكد',num(sum(paid))+' د.ع',paid.length+' حجزاً')+kp('نسبة تأكيد الحجوزات',conv+'%','من '+D.bk.length+' حجزاً ('+canc.length+' ملغى)')+kp('متوسط أجر الحجز',num(avg)+' د.ع','عربون معلّق '+num(sum(pend))+' د.ع')+kp('المحترفون المعتمدون',D.pros.filter(p=>p.approved).length,'من '+D.pros.length+' | موثق '+D.pros.filter(p=>p.verified).length)+'</div>'+
+ '<div class="cols">'+pn('العربون المؤكد شهرياً (د.ع)',hbars(rev))+pn('الحجوزات الجديدة شهرياً',hbars(cb))+pn('مستخدمون جدد شهرياً',hbars(nu))+pn('أكثر المحترفين إيراداً (عربون مؤكد)',hbars(topPros,v=>num(v)))+
+ pn('المحترفون حسب القسم',hbars(topN(D.pros,p=>p.category,12)))+pn('المحترفون حسب المحافظة',hbars(topN(D.pros,p=>p.gov,10)))+pn('الحجوزات حسب القسم',hbars(topN(D.bk,b=>b.project,10)))+pn('الطلبات حسب النوع',hbars(topN(D.req,r=>r.type,10)))+'</div>';
+};
+LIST.cats=function(){
+ const rows=D.cats.slice().sort((a,b)=>a.sort-b.sort||a.name.localeCompare(b.name,'ar')),used={};D.pros.forEach(p=>used[p.category]=(used[p.category]||0)+1);
+ const known=new Set(D.cats.map(c=>c.name)),missing=Object.keys(used).filter(n=>n&&!known.has(n));
+ const hint='<div class="hint">الأقسام الظاهرة (مفعّلة) هي التي يعرضها الموقع للزوار ونماذج التسجيل. لعمل قسم فرعي اكتب الاسم بصيغة «الرئيسي - الفرعي» مثل «موديل - ذكر»، ويجمعها الموقع تحت الرئيسي. الحذف مرفوض لقسم فيه محترفون، فاخفِه بدل ذلك.</div>';
+ if(!D.cats.length){$('#list').innerHTML=hint+'<div class="empty">لا توجد أقسام محفوظة. شغّل ملف admin2.sql في Supabase ثم اضغط تحديث. وحتى ذلك الحين يستخدم الموقع قائمته الافتراضية.</div>';return}
+ $('#list').innerHTML=hint+tbl(['الترتيب','القسم','المحترفون','الحالة','إجراءات'],rows.map((c,i)=>[c.sort,'<b>'+esc(c.name)+'</b>'+(c.name.includes(' - ')?'<span class="mu">قسم فرعي</span>':''),used[c.name]||0,c.active?'<span class="b ok">ظاهر</span>':'<span class="b mt">مخفي</span>','<div class="ac">'+bt('cat_up',c.name,'↑','',i?'':' disabled')+bt('cat_dn',c.name,'↓','',i<rows.length-1?'':' disabled')+bt('cat_tg',c.name,c.active?'إخفاء':'إظهار',c.active?'':'pr')+bt('cat_ren',c.name,'تغيير الاسم')+bt('cat_del',c.name,'حذف','dg')+'</div>']))+
+ (missing.length?'<div class="panel" style="margin-top:14px"><h3>أقسام يستخدمها محترفون وليست في القائمة</h3>'+missing.map(n=>'<div class="todo"><span>'+esc(n)+' <span class="mu">('+used[n]+' محترف)</span></span>'+bt('cat_adm',n,'إضافة للقائمة','pr')+'</div>').join('')+'</div>':'');
+};
+const nextSort=()=>D.cats.reduce((m,c)=>Math.max(m,c.sort),0)+10;
+const validCat=n=>n.length>=2&&n.length<=60&&!/[<>"'&]/.test(n);
+ACT.cat_new=()=>modal('إضافة قسم','<label>اسم القسم</label><input id="f_cn" maxlength="60"><label class="chk"><input id="f_ca" type="checkbox" checked> ظاهر في الموقع</label>',async()=>{const n=$('#f_cn').value.trim();if(!validCat(n))return bad('اسم القسم غير صالح (2 إلى 60 حرفاً بلا رموز خاصة)');if(D.cats.some(c=>c.name==n))return bad('القسم موجود');LT=n;const r=await sb.from('categories').insert({name:n,sort:nextSort(),active:$('#f_ca').checked});if(r.error)return bad(r.error.message);await refresh('تمت إضافة قسم')},'إضافة');
+ACT.cat_adm=id=>run(sb.from('categories').insert({name:id,sort:nextSort(),active:true}),'أُضيف قسم موجود لدى محترفين');
+ACT.cat_tg=id=>{const c=D.cats.find(x=>x.name==id);return run(sb.from('categories').update({active:!c.active}).eq('name',id),c.active?'أُخفي قسم':'أُظهر قسم')};
+ACT.cat_ren=id=>modal('تغيير اسم: '+id,'<label>الاسم الجديد</label><input id="f_cn" maxlength="60" value="'+esc(id)+'"><div class="mu">يُحدَّث اسم القسم لدى كل المحترفين والطلبات والحجوزات المرتبطة به.</div>',async()=>{const n=$('#f_cn').value.trim(),c=D.cats.find(x=>x.name==id);if(!validCat(n))return bad('اسم القسم غير صالح');if(n==id)return true;if(D.cats.some(x=>x.name==n))return bad('يوجد قسم بهذا الاسم');LT=id+' ← '+n;
+ const a=await sb.from('categories').insert({name:n,sort:c.sort,active:c.active});if(a.error)return bad(a.error.message);
+ for(const [t,col] of [['pros','category'],['requests','type'],['bookings','project']]){const u=await sb.from(t).update({[col]:n}).eq(col,id);if(u.error)return bad('تعذر تحديث '+t+': '+u.error.message+' (أُنشئ القسم الجديد ويمكنك إعادة المحاولة)')}
+ const d=await sb.from('categories').delete().eq('name',id);if(d.error)return bad(d.error.message);await refresh('غُيّر اسم قسم')});
+ACT.cat_del=id=>{if(D.pros.some(p=>p.category==id))return toast('في هذا القسم محترفون: انقلهم أو اخفِ القسم بدل حذفه',1);if(confirm('حذف القسم «'+id+'»؟'))return run(sb.from('categories').delete().eq('name',id),'حُذف قسم')};
+async function mv(id,d){const r=D.cats.slice().sort((a,b)=>a.sort-b.sort||a.name.localeCompare(b.name,'ar')),i=r.findIndex(c=>c.name==id),j=i+d;if(j<0||j>=r.length)return;
+ r.splice(j,0,r.splice(i,1)[0]);const rows=r.map((c,k)=>({name:c.name,sort:(k+1)*10,active:c.active}));return run(sb.from('categories').upsert(rows,{onConflict:'name'}),'غُيّر ترتيب الأقسام')}
+ACT.cat_up=id=>mv(id,-1);ACT.cat_dn=id=>mv(id,1);
+const DEF={home_title:'ماذا تحتاج اليوم؟',home_sub:'فريقك الإبداعي بنقرة. مصورون ومونتيرون ومصممون وفرق إنتاج ومعدات، في مكان واحد وفي كل محافظات العراق.',markets_title:'أربعة أسواق في منصة واحدة',markets_sub:'كل ما يحتاجه مشروعك الإعلامي، من الفكرة حتى التسليم.',how_title:'كيف نعمل',how_sub:'ثلاث خطوات من الطلب إلى الملفات النهائية.'};
+const CF=[['home_title','عنوان الصفحة الرئيسية'],['home_sub','الوصف تحت العنوان'],['markets_title','عنوان قسم «الأسواق»'],['markets_sub','وصف قسم «الأسواق»'],['how_title','عنوان «كيف نعمل»'],['how_sub','وصف «كيف نعمل»']];
+LIST.content=function(){
+ $('#list').innerHTML='<div class="hint">اترك الحقل فارغاً ليستخدم الموقع النص الافتراضي المكتوب فيه. إعلان أعلى الموقع وتعليمات الدفع ونسبة العربون في صفحة «الإعدادات».</div><div class="panel" style="max-width:760px">'+CF.map(f=>'<label>'+f[1]+'</label>'+(f[0].endsWith('_sub')?'<textarea id="x_'+f[0]+'" maxlength="300" placeholder="'+esc(DEF[f[0]])+'">'+esc(D.cfg[f[0]]||'')+'</textarea>':'<input id="x_'+f[0]+'" maxlength="100" placeholder="'+esc(DEF[f[0]])+'" value="'+esc(D.cfg[f[0]]||'')+'">')).join('')+'<div style="margin-top:14px"><button class="btn pr" data-a="savecontent">حفظ المحتوى</button> <button class="btn" data-a="resetcontent">استعادة النصوص الافتراضية</button></div></div>';
+};
+ACT.savecontent=()=>run(sb.from('settings').upsert(CF.map(f=>({key:f[0],value:$('#x_'+f[0]).value.trim()})),{onConflict:'key'}),'تم تحديث محتوى الموقع');
+ACT.resetcontent=()=>{if(confirm('مسح كل النصوص المخصصة والعودة للافتراضية؟'))return run(sb.from('settings').upsert(CF.map(f=>({key:f[0],value:''})),{onConflict:'key'}),'استُعيدت نصوص الموقع الافتراضية')};
+LIST.log=function(){
+ const s=S.log,q=s.q.trim().toLowerCase(),rows=D.log.filter(l=>!q||[l.admin_email,l.action,l.target,l.view].join(' ').toLowerCase().includes(q)),pg=page(rows,s);
+ $('#list').innerHTML='<div class="hint">سجل لا يمكن تعديله ولا حذفه، ويحفظ آخر 1000 إجراء نفذها المديرون من هذه اللوحة. وهو لا يسجل ما يُغيَّر مباشرة من Supabase.</div>'+tbl(['الوقت','المدير','الإجراء','العنصر','القسم'],pg.items.map(l=>[fmt(l.at),'<span dir="ltr">'+esc(l.admin_email||'')+'</span>',esc(l.action),esc(l.target||'-'),esc((VIEWS.find(v=>v[0]==l.view)||[0,l.view||'-'])[1])]))+pg.pager;
+};
+ACT.logcsv=()=>csv('creva-log.csv',['الوقت','المدير','الإجراء','العنصر','القسم'],D.log.map(l=>[l.at,l.admin_email,l.action,l.target,l.view]));
+
+const SHELL={stats:()=>shell('إحصاءات','<button class="btn" data-a="reload">تحديث</button>'),cats:()=>shell('الأقسام','<button class="btn pr" data-a="cat_new">+ إضافة قسم</button>'),content:()=>shell('محتوى الموقع',''),log:()=>shell('سجل النشاط','<button class="btn" data-a="logcsv">تصدير CSV</button>','<input data-f="q" placeholder="بحث في السجل" value="'+esc(S.log.q)+'">'),pros:proShell,works:worksShell,bk:bkShell,req:reqShell,users:usersShell,cfg:()=>shell('الإعدادات','')};
+const RAW=LIST;const L2={};Object.keys(RAW).forEach(k=>L2[k]=RAW[k]);
+Object.keys(SHELL).forEach(k=>{LIST[k]=function(){if(!$('#list')||V!=k||$('#main').dataset.v!=k){SHELL[k]();$('#main').dataset.v=k}L2[k]()}});
+LIST.dash=function(){$('#main').dataset.v='dash';L2.dash()};
+// ---------------- actions ----------------
+ACT.go=(id)=>go(id);ACT.reload=()=>refresh('تم التحديث');ACT.mx=closeModal;
+ACT.out=async()=>{await sb.auth.signOut();location.reload()};
+ACT.pg=(_,b)=>{S[V].pg+=+b.dataset.d;LIST[V]()};
+ACT.sel=(id,b)=>{const s=S[V].sel;b.checked?s.add(id):s.delete(id);LIST[V]()};
+ACT.selall=(_,b)=>{const s=S[V],rows=[...document.querySelectorAll('[data-a=sel]')].map(x=>x.dataset.id);rows.forEach(i=>b.checked?s.sel.add(i):s.sel.delete(i));LIST[V]()};
+ACT.clr=(_,b)=>{S[b.dataset.t].sel.clear();LIST[V]()};
+ACT.bulk=async(_,b)=>{const t=b.dataset.t,k=b.dataset.k,s=S[t],ids=[...s.sel];if(!ids.length)return;
+ if(k=='del'){if(!confirm('حذف '+ids.length+' عنصراً نهائياً؟'))return;s.sel.clear();return run(sb.from(t).delete().in('id',ids),'تم الحذف')}
+ const patch={approve:{approved:true},unapprove:{approved:false},verify:{verified:true}}[k];s.sel.clear();return run(sb.from(t).update(patch).in('id',ids),'تم تنفيذ الإجراء على '+ids.length)};
+ACT.pa=id=>{const p=D.pros.find(x=>x.id==id);return run(sb.from('pros').update({approved:!p.approved}).eq('id',id),p.approved?'أُلغي اعتماد المحترف':'تم اعتماد المحترف')};
+ACT.pv=id=>{const p=D.pros.find(x=>x.id==id);return run(sb.from('pros').update({verified:!p.verified}).eq('id',id),p.verified?'أُلغي التوثيق':'تم التوثيق')};
+ACT.pe=id=>{const p=D.pros.find(x=>x.id==id);modal('تعديل: '+p.name,proForm(p),()=>proSave(p))};
+ACT.pn=()=>modal('إضافة محترف',proForm(),()=>proSave(null),'إضافة');
+ACT.pd=id=>{const p=D.pros.find(x=>x.id==id);if(confirm('حذف «'+p.name+'» نهائياً مع أعماله وحجوزاته؟'))return run(sb.from('pros').delete().eq('id',id),'تم حذف المحترف')};
+ACT.pw=id=>{S.works.pro=id;S.works.st='';S.works.q='';S.works.pg=1;go('works')};
+ACT.pcsv=()=>csv('creva-pros.csv',['الاسم','التخصص','الوصف','المحافظة','الخبرة','السعر','واتساب','إنستغرام','معتمد','موثق','البريد','التاريخ'],D.pros.map(p=>{const c=D.cont[p.id]||{};return[p.name,p.category,p.spec,p.gov,p.years,p.price,c.whatsapp,c.instagram,p.approved?'نعم':'لا',p.verified?'نعم':'لا',userMail(p.user_id),p.created_at]}));
+ACT.wa=id=>{const w=D.works.find(x=>x.id==id);return run(sb.from('works').update({approved:!w.approved}).eq('id',id),w.approved?'أُخفي العمل':'تم اعتماد العمل')};
+ACT.wd=id=>{if(confirm('حذف هذا العمل نهائياً؟'))return run(sb.from('works').delete().eq('id',id),'تم حذف العمل')};
+ACT.wp=id=>{const w=D.works.find(x=>x.id==id),e=emb(w.video_url);modal(w.title||'معاينة العمل','<div class="mu">'+esc(proName(w.pro_id))+'</div>'+(e?'<iframe class="vid" src="'+e+'" allowfullscreen loading="lazy"></iframe>':'<p style="color:var(--er)">الرابط غير مدعوم (يجب أن يكون من يوتيوب أو جوجل درايف).</p>')+'<p dir="ltr"><a href="'+esc(w.video_url)+'" target="_blank" rel="noopener noreferrer">'+esc(w.video_url)+'</a></p>',null)};
+ACT.bs=(id,b)=>{const st=b.dataset.s,msg={paid:'تم تأكيد العربون',cancelled:'أُلغي الحجز',pending:'أُعيد الحجز لحالة الانتظار'}[st];if(st!='paid'&&!confirm('تأكيد الإجراء؟'))return;return run(sb.from('bookings').update({status:st}).eq('id',id),msg)};
+ACT.bd=id=>{if(confirm('حذف الحجز نهائياً؟'))return run(sb.from('bookings').delete().eq('id',id),'تم حذف الحجز')};
+ACT.bcsv=()=>csv('creva-bookings.csv',['رقم الحجز','المحترف','بريد الزبون','واتساب الزبون','إنستغرام الزبون','المشروع','المحافظة','التاريخ','الأجر','العربون','الحالة','أُنشئ','دُفع'],D.bk.map(b=>[ref(b.id),proName(b.pro_id),userMail(b.client_id),b.client_contact,b.client_instagram,b.project,b.gov,b.date,b.fee,b.deposit,(BST[b.status]||[b.status])[0],b.created_at,b.paid_at]));
+ACT.rh=id=>{const r=D.req.find(x=>x.id==id);return run(sb.from('requests').update({handled:!r.handled}).eq('id',id),r.handled?'أُعيد فتح الطلب':'تمت معالجة الطلب')};
+ACT.rn=id=>{const r=D.req.find(x=>x.id==id);modal('ملاحظة الإدارة','<label>الملاحظة (للإدارة فقط)</label><textarea id="f_note" maxlength="500">'+esc(r.admin_note||'')+'</textarea>',async()=>{const x=await sb.from('requests').update({admin_note:$('#f_note').value.trim()||null}).eq('id',id);if(x.error)return bad(x.error.message);await refresh('تم حفظ الملاحظة')})};
+ACT.rd=id=>{if(confirm('حذف الطلب نهائياً؟'))return run(sb.from('requests').delete().eq('id',id),'تم حذف الطلب')};
+ACT.ua=async id=>{const u=D.um[id],mk=!u.is_admin;if(!confirm(mk?'منح '+u.email+' صلاحية المدير الكاملة؟':'إزالة صلاحية المدير من '+u.email+'؟'))return;const r=await sb.rpc('admin_set_admin',{uid:id,make:mk});if(r.error)return toast(r.error.message,1);await refresh('تم تحديث الصلاحية')};
+ACT.ud=async id=>{const u=D.um[id],t=prompt('سيُحذف حساب '+u.email+' وكل ملفاته وأعماله وحجوزاته نهائياً.\nاكتب كلمة: حذف  للتأكيد');if(t!=='حذف')return;const r=await sb.rpc('admin_delete_user',{uid:id});if(r.error)return toast(r.error.message,1);await refresh('تم حذف الحساب')};
+ACT.uv=id=>{S.pros.q=userMail(id);S.pros.st=S.pros.cat=S.pros.gov='';S.pros.pg=1;go('pros')};
+ACT.ub=id=>{S.bk.q=userMail(id);S.bk.st='';S.bk.pg=1;go('bk')};
+ACT.ucsv=()=>csv('creva-users.csv',['البريد','التسجيل','آخر دخول','مفعّل','مدير','حجوزات'],D.users.map(u=>[u.email,u.created_at,u.last_sign_in_at,u.confirmed?'نعم':'لا',u.is_admin?'نعم':'لا',u.booking_count]));
+ACT.savecfg=async()=>{const pct=parseInt($('#c_pct').value,10);if(!(pct>=1&&pct<=100))return toast('نسبة العربون يجب أن تكون بين 1 و100',1);
+ return run(sb.from('settings').upsert([{key:'deposit_percent',value:String(pct)},{key:'pay_info',value:$('#c_pay').value.trim()},{key:'site_notice',value:$('#c_notice').value.trim()}],{onConflict:'key'}),'تم حفظ الإعدادات')};
+ACT.backup=()=>dl('creva-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify({exported_at:new Date().toISOString(),pros:D.pros,pro_contacts:Object.values(D.cont),works:D.works,bookings:D.bk,requests:D.req,settings:D.cfg,categories:D.cats},null,1),'application/json');
+// ---------------- events ----------------
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;if(a=='sel'||a=='selall'){}else if(b.tagName=='A')e.preventDefault();if(ACT[a]){LT=tlabel(a,b.dataset.id,b);ACT[a](b.dataset.id,b)}});
+document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(!f||!S[V])return;S[V][f]=e.target.value;S[V].pg=1;clearTimeout(input.t);input.t=setTimeout(()=>LIST[V](),180)});
+function input(){}
+$('#ms').onclick=async()=>{if(MODAL.save){const ok=await MODAL.save();if(ok!==false)closeModal()}};
+$('#lf').onsubmit=async e=>{e.preventDefault();const f=e.target,r=await sb.auth.signInWithPassword({email:f.e.value.trim(),password:f.w.value});if(r.error)return toast('البريد أو كلمة المرور غير صحيحة',1);boot()};
+window.addEventListener('hashchange',()=>{if(ME)go(location.hash.slice(1))});
+async function boot(){
+ const s=await sb.auth.getSession();$('#gate').hidden=false;$('#shell').hidden=true;
+ if(!s.data.session){$('#lf').hidden=false;$('#denied').hidden=true;return}
+ ME=s.data.session.user;const a=await sb.from('admins').select('user_id').eq('user_id',ME.id).maybeSingle();
+ if(!a.data){$('#lf').hidden=true;$('#denied').hidden=false;$('#gm').textContent=ME.email;return}
+ $('#gate').hidden=true;$('#shell').hidden=false;$('#me').textContent=ME.email;
+ await loadAll();go(location.hash.slice(1)||'dash')}
+boot();
+</script>
+</body>
+</html>
