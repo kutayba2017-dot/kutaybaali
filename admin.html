@@ -4,6 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>CREVA | لوحة الإدارة</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0f1020"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CREVA Admin"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#0f1020;--sd:#15162b;--card:#1b1c36;--in:#12132a;--bd:rgba(255,255,255,.09);--tx:#f2f2f8;--mu:#9a9cb8;--p:#6C63FF;--c:#00D1FF;--ok:#2ED47A;--er:#ff6b81;--wr:#ffb347;--g:linear-gradient(135deg,#6C63FF,#00D1FF)}
@@ -325,6 +326,7 @@ async function boot(){
  if(!a.data){$('#lf').hidden=true;$('#denied').hidden=false;$('#gm').textContent=ME.email;return}
  $('#gate').hidden=true;$('#shell').hidden=false;$('#me').textContent=ME.email;
  await loadAll();go(location.hash.slice(1)||'dash')}
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('admin-sw.js').catch(function(){})});
 boot();
 </script>
 </body>
