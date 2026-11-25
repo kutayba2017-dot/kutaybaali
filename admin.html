@@ -50,10 +50,11 @@ td .mu{display:block}.ac{display:flex;gap:5px;flex-wrap:wrap}
 .ht{background:var(--in);border-radius:99px;height:10px;overflow:hidden}.ht i{display:block;height:100%;background:var(--g);border-radius:99px}.hb b{min-width:34px;text-align:end}
 .hint{background:rgba(0,209,255,.08);border:1px solid rgba(0,209,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--mu)}
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 <body>
 <div id="gate" hidden><div class="gbox"><img src="icon.svg" alt="" height="44"><h1>لوحة إدارة CREVA</h1><p class="mu" id="gm">سجّل الدخول بحساب المدير.</p>
-<form id="lf"><label>البريد الإلكتروني</label><input name="e" type="email" dir="ltr" required autocomplete="email"><label>كلمة المرور</label><input name="w" type="password" dir="ltr" required autocomplete="current-password"><div style="margin-top:14px;display:flex;gap:8px"><button class="btn pr">دخول</button><a class="btn" href="/">الموقع</a></div></form>
+<form id="lf"><label>البريد الإلكتروني</label><input name="e" type="email" dir="ltr" required autocomplete="email"><label>كلمة المرور</label><input name="w" type="password" dir="ltr" required autocomplete="current-password"><div id="ts" style="margin-top:12px"></div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn pr">دخول</button><a class="btn" href="/">الموقع</a></div></form>
 <div id="denied" hidden><p style="color:var(--er)">هذا الحساب ليس مديراً، فلا صلاحية له هنا.</p><button class="btn" data-a="out">تسجيل الخروج</button> <a class="btn" href="/">الموقع</a></div></div></div>
 <div id="shell" hidden>
 <aside><div class="brand"><img src="icon.svg" alt="">CREVA</div><div id="nav"></div><div class="me"><div id="me"></div><button class="btn sm" data-a="out" style="margin-top:8px">تسجيل الخروج</button> <a class="btn sm" href="/">الموقع</a></div></aside>
@@ -317,10 +318,14 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b
 document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(!f||!S[V])return;S[V][f]=e.target.value;S[V].pg=1;clearTimeout(input.t);input.t=setTimeout(()=>LIST[V](),180)});
 function input(){}
 $('#ms').onclick=async()=>{if(MODAL.save){const ok=await MODAL.save();if(ok!==false)closeModal()}};
-$('#lf').onsubmit=async e=>{e.preventDefault();const f=e.target,r=await sb.auth.signInWithPassword({email:f.e.value.trim(),password:f.w.value});if(r.error)return toast('البريد أو كلمة المرور غير صحيحة',1);boot()};
+let TOK='',TSW=null;
+function renderTs(n=0){const el=document.getElementById('ts');if(!el||TSW!==null)return;if(!window.turnstile){if(n<40)setTimeout(()=>renderTs(n+1),250);return}
+try{TSW=turnstile.render(el,{sitekey:'0x4AAAAAAGSQusNEdxLDfr-d',callback:t=>{TOK=t},'expired-callback':()=>{TOK=''},'error-callback':()=>{TOK=''}})}catch(e){}}
+function resetTs(){TOK='';try{if(window.turnstile&&TSW!==null)turnstile.reset(TSW)}catch(e){}}
+$('#lf').onsubmit=async e=>{e.preventDefault();if(!TOK)return toast('أكمل التحقق من أنك إنسان أولاً',1);const f=e.target,r=await sb.auth.signInWithPassword({email:f.e.value.trim(),password:f.w.value,options:{captchaToken:TOK}});resetTs();if(r.error)return toast('البريد أو كلمة المرور غير صحيحة',1);boot()};
 window.addEventListener('hashchange',()=>{if(ME)go(location.hash.slice(1))});
 async function boot(){
- const s=await sb.auth.getSession();$('#gate').hidden=false;$('#shell').hidden=true;
+ const s=await sb.auth.getSession();$('#gate').hidden=false;$('#shell').hidden=true;renderTs();
  if(!s.data.session){$('#lf').hidden=false;$('#denied').hidden=true;return}
  ME=s.data.session.user;const a=await sb.from('admins').select('user_id').eq('user_id',ME.id).maybeSingle();
  if(!a.data){$('#lf').hidden=true;$('#denied').hidden=false;$('#gm').textContent=ME.email;return}
