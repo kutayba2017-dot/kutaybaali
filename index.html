@@ -207,7 +207,29 @@ function auth(f,ev){if(!sb){toast('اربط الموقع بقاعدة البيا
 if(!TOK){toast('أكمل التحقق من أنك إنسان أولاً');return false}
 var up=ev.submitter&&ev.submitter.dataset.a=='up',c={email:f.e.value.trim(),password:f.w.value,options:{captchaToken:TOK}};
 (up?sb.auth.signUp(c):sb.auth.signInWithPassword(c)).then(function(r){resetTs();if(r.error){toast((up?'تعذر إنشاء الحساب: ':'تعذر الدخول: ')+r.error.message);return}toast(up&&!r.data.session?'فعّل حسابك من رسالة البريد ثم سجّل الدخول':'تم الدخول');if(r.data.session)location.hash='#/'});return false}
-function out(){sb.auth.signOut().then(function(){toast('تم تسجيل الخروج');location.hash='#/'})}
+function out(){pushDrop().then(function(){return sb.auth.signOut()}).then(function(){toast('تم تسجيل الخروج');location.hash='#/'})}
+/* ---- Push notifications (device alerts) ---- */
+var PUSHFN=SB_URL+'/functions/v1/push';
+function u8(b){var p='='.repeat((4-b.length%4)%4),s=(b+p).replace(/-/g,'+').replace(/_/g,'/'),r=atob(s),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
+function pushOK(){return'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window}
+async function pushSub(){
+ var reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();
+ if(!sub){
+  var j=await (await fetch(PUSHFN)).json(),o={userVisibleOnly:true,applicationServerKey:u8(j.key)};
+  try{sub=await reg.pushManager.subscribe(o)}catch(e){var old=await reg.pushManager.getSubscription();if(!old)throw e;await old.unsubscribe();sub=await reg.pushManager.subscribe(o)}
+ }
+ var k=sub.toJSON(),r=await sb.rpc('push_save',{p_endpoint:k.endpoint,p_p256dh:k.keys.p256dh,p_auth:k.keys.auth});
+ return !r.error
+}
+function pushSync(){if(U&&pushOK()&&Notification.permission==='granted')pushSub().catch(function(){})}
+async function pushDrop(){try{if(!pushOK())return;var reg=await navigator.serviceWorker.getRegistration(),sub=reg&&await reg.pushManager.getSubscription();if(sub){await sb.from('push_subs').delete().eq('endpoint',sub.endpoint);await sub.unsubscribe()}}catch(e){}}
+function pushBtn(){
+ if(!U||!pushOK())return'';
+ if(Notification.permission==='denied')return'<p class="mu">الإشعارات محظورة لهذا الموقع من إعدادات المتصفح.</p>';
+ if(Notification.permission==='granted')return'<p class="mu">🔔 الإشعارات مفعّلة على هذا الجهاز.</p>';
+ return'<div class="card" style="margin:12px 0"><b>🔔 إشعارات الجوال</b><p class="mu">فعّلها لتصلك تنبيهات الحجوزات فور حدوثها.</p><button class="btn" onclick="pushOn(this)">فعّل الإشعارات</button></div>'}
+async function pushOn(b){b.disabled=true;try{var p=await Notification.requestPermission();if(p!=='granted'){toast('لم يتم السماح بالإشعارات');b.disabled=false;return}var ok=await pushSub();toast(ok?'تم تفعيل الإشعارات':'تعذر التفعيل');if(ok)route();else b.disabled=false}catch(e){toast('تعذر التفعيل على هذا المتصفح');b.disabled=false}}
+
 function adm(){if(!ADM)return '<div class="fm card"><h2>لوحة الإدارة</h2><p class="mu">هذه الصفحة للمالك فقط، وتتطلب تسجيل الدخول كمدير.</p></div>';
 var bt=function(t,a){return '<button class="btn o" onclick="'+a+'">'+t+'</button>'};
 return '<div class="fm card"><h2>إضافة محترف</h2><p class="mu">أضف محترفاً من كروب الواتساب ليظهر في الموقع فوراً.</p><form onsubmit="return addPro(this)">'+proForm(1)+'<div class="tb"><button class="btn">أضف المحترف</button></div></form></div>'+
@@ -225,7 +247,7 @@ function mine(){return ALLP.filter(function(p){return U&&p.u==U.id})[0]}
 function works(){if(!U)return '<div class="fm card"><h2>أعمالي</h2><p class="mu">سجّل الدخول أولاً.</p><a class="btn" href="#/login">دخول</a></div>';
 var m=mine();if(!m)return '<div class="fm card"><h2>أعمالي</h2><p class="mu">أنشئ ملفك كمحترف أولاً، ثم أضف أعمالك.</p><a class="btn" href="#/join">انضم كمحترف</a></div>';
 var l=WORKS.filter(function(w){return w.pro==m.id});
-return '<div class="fm card"><h2>أضف عملاً</h2><p class="mu">ارفع صورة مباشرة (تُضغط تلقائياً وتحمل علامة CREVA) أو ضع رابط فيديو من يوتيوب أو جوجل درايف. يظهر العمل بعد مراجعة الإدارة. لا تضع أرقاماً أو حسابات تواصل داخل المحتوى.</p><form onsubmit="saveWork(this);return false"><label>عنوان قصير</label><input name="t" maxlength="80"><label>صورة من جهازك</label><input name="p" type="file" accept="image/jpeg,image/png,image/webp"><label>أو رابط فيديو (يوتيوب أو جوجل درايف)</label><input name="v" type="url" dir="ltr" maxlength="300" placeholder="https://"><div class="tb"><button class="btn">أضف العمل</button></div></form></div><section style="margin-top:30px"><h2>أعمالي ('+l.length+')</h2><div class="grid">'+(l.length?l.map(function(w){return '<div class="card">'+wk(w)+'<div class="mu">'+(w.ok?'ظاهر في ملفك':'بانتظار المراجعة')+'</div><div class="tb"><button class="btn o" onclick="delWork(\''+w.id+'\',this)">حذف</button></div></div>'}).join(''):'<div class="card mu">لا توجد أعمال بعد.</div>')+'</div></section>'}
+return '<div class="fm card">'+pushBtn()+'<h2>أضف عملاً</h2><p class="mu">ارفع صورة مباشرة (تُضغط تلقائياً وتحمل علامة CREVA) أو ضع رابط فيديو من يوتيوب أو جوجل درايف. يظهر العمل بعد مراجعة الإدارة. لا تضع أرقاماً أو حسابات تواصل داخل المحتوى.</p><form onsubmit="saveWork(this);return false"><label>عنوان قصير</label><input name="t" maxlength="80"><label>صورة من جهازك</label><input name="p" type="file" accept="image/jpeg,image/png,image/webp"><label>أو رابط فيديو (يوتيوب أو جوجل درايف)</label><input name="v" type="url" dir="ltr" maxlength="300" placeholder="https://"><div class="tb"><button class="btn">أضف العمل</button></div></form></div><section style="margin-top:30px"><h2>أعمالي ('+l.length+')</h2><div class="grid">'+(l.length?l.map(function(w){return '<div class="card">'+wk(w)+'<div class="mu">'+(w.ok?'ظاهر في ملفك':'بانتظار المراجعة')+'</div><div class="tb"><button class="btn o" onclick="delWork(\''+w.id+'\',this)">حذف</button></div></div>'}).join(''):'<div class="card mu">لا توجد أعمال بعد.</div>')+'</div></section>'}
 function prepImg(file){return new Promise(function(ok,no){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){URL.revokeObjectURL(u);var M=1600,k=Math.min(1,M/Math.max(im.width,im.height)),w=Math.round(im.width*k),h=Math.round(im.height*k),c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);
 var fs=Math.max(18,Math.round(w/28));x.font='700 '+fs+'px Arial,sans-serif';x.textAlign='right';x.textBaseline='bottom';x.lineWidth=Math.max(2,fs/9);x.strokeStyle='rgba(0,0,0,.45)';x.fillStyle='rgba(255,255,255,.85)';x.strokeText('CREVA',w-fs*.6,h-fs*.5);x.fillText('CREVA',w-fs*.6,h-fs*.5);
 var q=.85,go=function(){c.toBlob(function(b){if(!b)return no();if(b.size>1900000&&q>.4){q-=.1;return go()}b.size>1990000?no():ok(b)},'image/jpeg',q)};go()};im.onerror=function(){URL.revokeObjectURL(u);no()};im.src=u})}
@@ -260,7 +282,7 @@ function saveBook(f,pid){if(!(+f.f.value>=50000)){toast('الحد الأدنى �
 sb.from('bookings').insert({client_id:U.id,pro_id:pid,project:p.c,gov:f.g.value,date:f.d.value||null,fee:+f.f.value,details:f.x.value.trim()||null,client_contact:f.k.value.trim(),client_instagram:ig(f.i.value)||null}).then(function(r){if(r.error){toast('تعذر إرسال الحجز: '+r.error.message);return}MYB=null;location.hash='#/bookings';toast('وصل حجزك. ادفع العربون لتظهر بيانات التواصل.')});return false}
 function bookings(){if(!U)return '<div class="fm card"><h2>حجوزاتي</h2><p class="mu">سجّل الدخول أولاً.</p><a class="btn" href="#/login">دخول</a></div>';
 if(MYB===null){loadMyb();return '<div class="fm card"><p class="mu">جاري التحميل...</p></div>'}
-return '<section style="margin-top:36px"><h2>حجوزاتي</h2><div class="grid">'+(MYB.length?MYB.map(bcard).join(''):'<div class="card mu">لا توجد حجوزات بعد.</div>')+'</div></section>'}
+return '<section style="margin-top:36px"><h2>حجوزاتي</h2>'+pushBtn()+'<div class="grid">'+(MYB.length?MYB.map(bcard).join(''):'<div class="card mu">لا توجد حجوزات بعد.</div>')+'</div></section>'}
 function loadMyb(){sb.rpc('my_bookings').then(function(r){if(r.error)toast('تعذر تحميل الحجوزات: '+r.error.message);MYB=r.data||[];if(/^#\/bookings/.test(location.hash))route()})}
 function bcard(b){var cl=b.role=='client',x;
 if(b.status=='paid')x='<div class="ok">تم تأكيد العربون. تواصل الآن للاتفاق على التفاصيل:</div><div class="tb"><a class="btn" href="https://wa.me/'+wn(b.contact)+'" target="_blank" rel="noopener">تواصل عبر واتساب</a></div><div class="mu" dir="ltr">'+esc(b.contact)+'</div><div class="tb">'+igb(b.contact_ig)+'</div>';
@@ -287,7 +309,8 @@ var go=function(){var m=matchMedia('(prefers-reduced-motion:reduce)').matches;do
 $('#enter').onclick=go;$('#cue').onclick=go})();
 window.addEventListener('hashchange',function(){route();window.scrollTo(0,0)});
 route();cfg();
-function sess(x){U=x?x.user:null;ADM=false;MYB=null;document.getElementById('acc').textContent=U?'حسابي':'دخول';
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+function sess(x){U=x?x.user:null;ADM=false;MYB=null;if(U)setTimeout(pushSync,1500);document.getElementById('acc').textContent=U?'حسابي':'دخول';
 var o=document.getElementById('adl');if(o)o.remove();
 (U?sb.from('admins').select('user_id').eq('user_id',U.id).maybeSingle():Promise.resolve({data:null})).then(function(r){ADM=!!r.data;if(ADM)document.querySelector('nav').insertAdjacentHTML('beforeend','<a id="adl" href="#/admin">الإدارة</a>');ld()})}
 if(sb){sb.auth.getSession().then(function(r){sess(r.data.session)});sb.auth.onAuthStateChange(function(e,x){setTimeout(function(){sess(x);if(e=='PASSWORD_RECOVERY')location.hash='#/newpw'},0)})}
