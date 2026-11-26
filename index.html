@@ -240,9 +240,9 @@ function addPro(f){if(f.i.value.trim()&&!ig(f.i.value)){toast('اسم مستخد
 sb.from('pro_contacts').insert({pro_id:r.data.id,whatsapp:f.w.value.trim(),instagram:ig(f.i.value)||null}).then(function(){toast('تمت إضافة المحترف');f.reset();ld()})});return false}
 function upd(id,col,v){var o={};o[col]=v;sb.from('pros').update(o).eq('id',id).then(function(r){r.error?toast('تعذر التحديث'):ld()})}
 function del(c,id,b){if(b.dataset.s!='1'){b.dataset.s='1';b.textContent='تأكيد الحذف';return}sb.from(c).delete().eq('id',id).then(function(r){r.error?toast('تعذر الحذف'):ld()})}
-function mw(x){return{id:x.id,pro:x.pro_id,u:x.user_id,t:esc(x.title||''),path:x.image_path||'',img:x.image_path?sb.storage.from('works').getPublicUrl(x.image_path).data.publicUrl:'',vid:x.video_url||'',ok:x.approved}}
+function mw(x){return{id:x.id,pro:x.pro_id,u:x.user_id,t:esc(x.title||''),path:x.image_path||'',img:x.image_path?sb.storage.from('works').getPublicUrl(x.image_path).data.publicUrl:'',vid:x.video_url||'',ok:x.approved,scan:x.scan||'ok',note:x.scan_note||''}}
 function emb(u){u=String(u);var m=u.match(/^https:\/\/(?:www\.|m\.)?(?:youtube\.com\/watch\?(?:[^#]*&)?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/);if(m)return 'https://www.youtube.com/embed/'+m[1];m=u.match(/^https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([\w-]{10,})/);return m?'https://drive.google.com/file/d/'+m[1]+'/preview':''}
-function wk(w){var e=w.vid?emb(w.vid):'';if(!w.img&&!e)return '';return '<figure class="wk">'+(w.img?'<a href="'+esc(w.img)+'" target="_blank" rel="noopener"><img src="'+esc(w.img)+'" alt="'+w.t+'" loading="lazy"></a>':'<iframe src="'+e+'" title="'+w.t+'" loading="lazy" allowfullscreen></iframe>')+(w.t?'<figcaption class="mu">'+w.t+'</figcaption>':'')+'</figure>'}
+function wk(w){if(w.path&&w.scan!='ok')return '<figure class="wk"><div class="mu" style="padding:26px 12px;text-align:center;border:1px dashed var(--bd,#555);border-radius:10px">'+(w.scan=='flagged'?'🚫 رُفضت هذه الصورة آلياً لأنها غير لائقة':'⏳ الصورة قيد الفحص الآلي')+'</div>'+(w.t?'<figcaption class="mu">'+w.t+'</figcaption>':'')+'</figure>';var e=w.vid?emb(w.vid):'';if(!w.img&&!e)return '';return '<figure class="wk">'+(w.img?'<a href="'+esc(w.img)+'" target="_blank" rel="noopener"><img src="'+esc(w.img)+'" alt="'+w.t+'" loading="lazy"></a>':'<iframe src="'+e+'" title="'+w.t+'" loading="lazy" allowfullscreen></iframe>')+(w.t?'<figcaption class="mu">'+w.t+'</figcaption>':'')+'</figure>'}
 function gal(p){var l=WORKS.filter(function(w){return w.pro==p.id&&w.ok});return l.length?'<h2 style="margin-top:30px">معرض الأعمال</h2><div class="gal">'+l.map(wk).join('')+'</div>':''}
 function mine(){return ALLP.filter(function(p){return U&&p.u==U.id})[0]}
 function works(){if(!U)return '<div class="fm card"><h2>أعمالي</h2><p class="mu">سجّل الدخول أولاً.</p><a class="btn" href="#/login">دخول</a></div>';
@@ -258,12 +258,12 @@ if(v&&!emb(v)){toast('رابط الفيديو يجب أن يكون من جوجل
 b.disabled=true;var path=null;
 if(file){if(!/^image\/(jpeg|png|webp)$/.test(file.type)){b.disabled=false;toast('الصيغ المسموحة: JPG أو PNG أو WebP');return}
 try{var blob=await prepImg(file)}catch(e){b.disabled=false;toast('تعذر معالجة الصورة');return}
-path=U.id+'/'+Date.now()+'.jpg';var up=await sb.storage.from('works').upload(path,blob,{contentType:'image/jpeg',upsert:false});
+path=U.id+'/'+Date.now()+'.jpg';var up=await sb.storage.from('works-pending').upload(path,blob,{contentType:'image/jpeg',upsert:false});
 if(up.error){b.disabled=false;toast('تعذر رفع الصورة');return}}
 var r=await sb.from('works').insert({pro_id:m.id,user_id:U.id,title:f.t.value.trim()||null,image_path:path,video_url:v||null});
-b.disabled=false;if(r.error){if(path)sb.storage.from('works').remove([path]);toast(em(r,'تعذر الحفظ'));return}toast('وصل عملك وهو بانتظار المراجعة');ld().then(route)}
+b.disabled=false;if(r.error){if(path)sb.storage.from('works-pending').remove([path]);toast(em(r,'تعذر الحفظ'));return}toast(path?'وصل عملك، يتم فحص الصورة آلياً ثم يراجعه الفريق':'وصل عملك وهو بانتظار المراجعة');ld().then(route)}
 function delWork(id,b){if(b.dataset.s!='1'){b.dataset.s='1';b.textContent='تأكيد الحذف';return}
-var w=WORKS.filter(function(x){return x.id==id})[0];if(w&&w.path)sb.storage.from('works').remove([w.path]);
+var w=WORKS.filter(function(x){return x.id==id})[0];if(w&&w.path){sb.storage.from('works').remove([w.path]);sb.storage.from('works-pending').remove([w.path])}
 sb.from('works').delete().eq('id',id).then(function(r){r.error?toast('تعذر الحذف'):ld().then(route)})}
 function updWork(id,v){sb.from('works').update({approved:v}).eq('id',id).then(function(r){r.error?toast('تعذر التحديث'):ld().then(route)})}
 function aw(){var nm=function(id){var p=ALLP.filter(function(x){return x.id==id})[0];return p?p.n:''};
