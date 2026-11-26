@@ -210,6 +210,7 @@ LIST.cfg=function(){
  '<label>إعلان أعلى الموقع (اتركه فارغاً لإخفائه)</label><input id="c_notice" maxlength="200" value="'+esc(c.site_notice||'')+'">'+
  '<div style="margin-top:14px"><button class="btn pr" data-a="savecfg">حفظ الإعدادات</button></div></div>'+
  '<div class="panel" style="max-width:720px;margin-top:14px"><h3>المديرون</h3>'+(D.users.filter(u=>u.is_admin).map(u=>'<div class="todo"><span dir="ltr">'+esc(u.email)+'</span></div>').join('')||'<div class="mu">-</div>')+'</div>'+
+ '<div class="panel" style="max-width:720px;margin-top:14px"><h3>الإشعارات على هذا الجهاز</h3><p class="mu">فعّلها على كل جهاز تريد أن تصلك عليه إشعارات المشتركين والحجوزات.</p><button class="btn pr" data-a="pushon">🔔 فعّل الإشعارات</button> <button class="btn" data-a="pushtest">إشعار تجريبي</button></div>'+
  '<div class="panel" style="max-width:720px;margin-top:14px"><h3>نسخة احتياطية</h3><p class="mu">تنزّل كل البيانات (المحترفون والأعمال والحجوزات والطلبات والإعدادات) في ملف JSON واحد.</p><button class="btn" data-a="backup">تنزيل نسخة احتياطية</button></div>';
 };
 
