@@ -57,7 +57,7 @@ td .mu{display:block}.ac{display:flex;gap:5px;flex-wrap:wrap}
 <form id="lf"><label>البريد الإلكتروني</label><input name="e" type="email" dir="ltr" required autocomplete="email"><label>كلمة المرور</label><input name="w" type="password" dir="ltr" required autocomplete="current-password"><div id="ts" style="margin-top:12px"></div><div style="margin-top:14px;display:flex;gap:8px"><button class="btn pr">دخول</button><a class="btn" href="/">الموقع</a></div></form>
 <div id="denied" hidden><p style="color:var(--er)">هذا الحساب ليس مديراً، فلا صلاحية له هنا.</p><button class="btn" data-a="out">تسجيل الخروج</button> <a class="btn" href="/">الموقع</a></div></div></div>
 <div id="shell" hidden>
-<aside><div class="brand"><img src="icon.svg" alt="">CREVA</div><div id="nav"></div><div class="me"><div id="me"></div><button class="btn sm" data-a="out" style="margin-top:8px">تسجيل الخروج</button> <a class="btn sm" href="/">الموقع</a></div></aside>
+<aside><div class="brand"><img src="icon.svg" alt="">CREVA</div><div id="nav"></div><div class="me"><div id="me"></div><button class="btn sm" data-a="out" style="margin-top:8px">تسجيل الخروج</button> <a class="btn sm" href="/">الموقع</a><div style="margin-top:8px"><button class="btn sm" data-a="pushon">🔔 فعّل الإشعارات</button> <button class="btn sm" data-a="pushtest">إشعار تجريبي</button></div></div></aside>
 <main id="main"></main></div>
 <div id="modal" hidden><div class="mbox"><div class="mh"><b id="mt"></b><button class="btn sm" data-a="mx">إغلاق</button></div><div id="mb"></div><div class="mf"><button class="btn pr" id="ms">حفظ</button><button class="btn" data-a="mx">إلغاء</button></div></div></div>
 <div id="toast" role="status"></div>
@@ -313,6 +313,29 @@ ACT.ucsv=()=>csv('creva-users.csv',['البريد','التسجيل','آخر دخ
 ACT.savecfg=async()=>{const pct=parseInt($('#c_pct').value,10);if(!(pct>=1&&pct<=100))return toast('نسبة العربون يجب أن تكون بين 1 و100',1);
  return run(sb.from('settings').upsert([{key:'deposit_percent',value:String(pct)},{key:'pay_info',value:$('#c_pay').value.trim()},{key:'site_notice',value:$('#c_notice').value.trim()}],{onConflict:'key'}),'تم حفظ الإعدادات')};
 ACT.backup=()=>dl('creva-backup-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify({exported_at:new Date().toISOString(),pros:D.pros,pro_contacts:Object.values(D.cont),works:D.works,bookings:D.bk,requests:D.req,settings:D.cfg,categories:D.cats},null,1),'application/json');
+
+// ---------------- push notifications ----------------
+const PUSHFN=SB_URL+'/functions/v1/push';
+function u8(b){const p='='.repeat((4-b.length%4)%4),s=(b+p).replace(/-/g,'+').replace(/_/g,'/'),r=atob(s),a=new Uint8Array(r.length);for(let i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
+function pushOK(){return 'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window}
+async function pushSub(){
+ const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+ if(!sub){
+  const j=await (await fetch(PUSHFN)).json(),o={userVisibleOnly:true,applicationServerKey:u8(j.key)};
+  try{sub=await reg.pushManager.subscribe(o)}catch(e){const old=await reg.pushManager.getSubscription();if(!old)throw e;await old.unsubscribe();sub=await reg.pushManager.subscribe(o)}
+ }
+ const k=sub.toJSON(),r=await sb.rpc('push_save',{p_endpoint:k.endpoint,p_p256dh:k.keys.p256dh,p_auth:k.keys.auth});
+ return !r.error
+}
+ACT.pushon=async()=>{
+ if(!pushOK())return toast('هذا المتصفح لا يدعم الإشعارات',1);
+ const p=await Notification.requestPermission();
+ if(p!=='granted')return toast('لم يتم السماح بالإشعارات. فعّلها من إعدادات المتصفح للموقع',1);
+ try{(await pushSub())?toast('تم تفعيل الإشعارات على هذا الجهاز'):toast('تعذر التفعيل',1)}catch(e){toast('تعذر التفعيل: '+e.message,1)}};
+ACT.pushtest=async()=>{
+ if(!pushOK()||Notification.permission!=='granted')return toast('فعّل الإشعارات أولاً',1);
+ try{const s=await sb.auth.getSession(),r=await fetch(PUSHFN,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+s.data.session.access_token},body:JSON.stringify({event:'test'})}),j=await r.json();
+  toast(j.ok?(j.sent>0?'أُرسل إشعار تجريبي إلى '+j.sent+' جهاز':'لا يوجد جهاز مسجّل. اضغط «فعّل الإشعارات» أولاً'):'تعذر الإرسال',!j.ok||!j.sent)}catch(e){toast('تعذر الإرسال',1)}};
 // ---------------- events ----------------
 document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;if(a=='sel'||a=='selall'){}else if(b.tagName=='A')e.preventDefault();if(ACT[a]){LT=tlabel(a,b.dataset.id,b);ACT[a](b.dataset.id,b)}});
 document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(!f||!S[V])return;S[V][f]=e.target.value;S[V].pg=1;clearTimeout(input.t);input.t=setTimeout(()=>LIST[V](),180)});
@@ -330,8 +353,8 @@ async function boot(){
  ME=s.data.session.user;const a=await sb.from('admins').select('user_id').eq('user_id',ME.id).maybeSingle();
  if(!a.data){$('#lf').hidden=true;$('#denied').hidden=false;$('#gm').textContent=ME.email;return}
  $('#gate').hidden=true;$('#shell').hidden=false;$('#me').textContent=ME.email;
- await loadAll();go(location.hash.slice(1)||'dash')}
-if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('admin-sw.js').catch(function(){})});
+ await loadAll();go(location.hash.slice(1)||'dash');if(pushOK()&&Notification.permission==='granted')pushSub().catch(function(){})}
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
 boot();
 </script>
 </body>
