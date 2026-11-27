@@ -6,9 +6,11 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0f1020"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CREVA Admin"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/Najwa_Arabic_Regular.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:Najwa;src:url(fonts/Najwa_Arabic_Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
 :root{color-scheme:dark;--bg:#0f1020;--sd:#15162b;--card:#1b1c36;--in:#12132a;--bd:rgba(255,255,255,.09);--tx:#f2f2f8;--mu:#9a9cb8;--p:#6C63FF;--c:#00D1FF;--ok:#2ED47A;--er:#ff6b81;--wr:#ffb347;--g:linear-gradient(135deg,#6C63FF,#00D1FF)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.6 Cairo,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.6 Najwa,Cairo,system-ui,sans-serif}
 button,input,select,textarea{font:inherit;color:inherit}:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 a{color:var(--c);text-decoration:none}
 #gate{min-height:100vh;display:grid;place-items:center;padding:20px}.gbox{width:min(420px,100%);background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px}
@@ -19,7 +21,7 @@ label{display:block;color:var(--mu);font-size:13px;margin:10px 0 3px}
 .btn:hover{border-color:var(--p)}.btn.pr{background:var(--g);border:0;color:#0d0d1a;font-weight:800}.btn.dg{color:var(--er)}.btn.sm{padding:3px 9px;font-size:12px}
 #shell{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
 aside{background:var(--sd);border-inline-end:1px solid var(--bd);padding:16px 12px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
-.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font:800 18px Cairo}.brand img{height:34px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font:800 18px Najwa,Cairo}.brand img{height:34px}
 aside button.nv{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:start;background:none;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;color:var(--mu);font-weight:600}
 aside button.nv:hover{background:rgba(255,255,255,.05)}aside button.nv.on{background:rgba(108,99,255,.18);color:var(--tx)}
 .n{background:var(--wr);color:#241a00;border-radius:99px;font-size:11px;font-weight:800;padding:0 8px;min-width:20px;text-align:center}
