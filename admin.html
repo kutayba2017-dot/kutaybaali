@@ -4,12 +4,12 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>CREVA | لوحة الإدارة</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0f1020"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CREVA Admin"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0F1B2D"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="CREVA Admin"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="preload" href="fonts/Najwa_Arabic_Regular.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:Najwa;src:url(fonts/Najwa_Arabic_Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
-:root{color-scheme:dark;--bg:#0f1020;--sd:#15162b;--card:#1b1c36;--in:#12132a;--bd:rgba(255,255,255,.09);--tx:#f2f2f8;--mu:#9a9cb8;--p:#6C63FF;--c:#00D1FF;--ok:#2ED47A;--er:#ff6b81;--wr:#ffb347;--g:linear-gradient(135deg,#6C63FF,#00D1FF)}
+:root{color-scheme:dark;--bg:#0F1B2D;--sd:#0B1524;--card:#18283F;--in:#0B1524;--bd:rgba(255,255,255,.09);--tx:#f2f2f8;--mu:#9fabbd;--p:#F2A93B;--c:#F7C46A;--ok:#2ED47A;--er:#ff6b81;--wr:#ffb347;--g:linear-gradient(135deg,#F2A93B,#F7C46A)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.6 Najwa,Cairo,system-ui,sans-serif}
 button,input,select,textarea{font:inherit;color:inherit}:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 a{color:var(--c);text-decoration:none}
@@ -18,12 +18,12 @@ a{color:var(--c);text-decoration:none}
 input,select,textarea{width:100%;background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}textarea{min-height:90px;resize:vertical}
 label{display:block;color:var(--mu);font-size:13px;margin:10px 0 3px}
 .btn{border:1px solid var(--bd);background:var(--card);border-radius:9px;padding:5px 12px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
-.btn:hover{border-color:var(--p)}.btn.pr{background:var(--g);border:0;color:#0d0d1a;font-weight:800}.btn.dg{color:var(--er)}.btn.sm{padding:3px 9px;font-size:12px}
+.btn:hover{border-color:var(--p)}.btn.pr{background:var(--g);border:0;color:#0F1B2D;font-weight:800}.btn.dg{color:var(--er)}.btn.sm{padding:3px 9px;font-size:12px}
 #shell{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
 aside{background:var(--sd);border-inline-end:1px solid var(--bd);padding:16px 12px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:4px}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font:800 18px Najwa,Cairo}.brand img{height:34px}
 aside button.nv{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:start;background:none;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;color:var(--mu);font-weight:600}
-aside button.nv:hover{background:rgba(255,255,255,.05)}aside button.nv.on{background:rgba(108,99,255,.18);color:var(--tx)}
+aside button.nv:hover{background:rgba(255,255,255,.05)}aside button.nv.on{background:rgba(242,169,59,.18);color:var(--tx)}
 .n{background:var(--wr);color:#241a00;border-radius:99px;font-size:11px;font-weight:800;padding:0 8px;min-width:20px;text-align:center}
 .me{margin-top:auto;border-top:1px solid var(--bd);padding:12px 8px 0;font-size:12px;color:var(--mu);word-break:break-all}
 main{padding:22px 26px;min-width:0}
@@ -38,7 +38,7 @@ td .mu{display:block}.ac{display:flex;gap:5px;flex-wrap:wrap}
 .b{display:inline-block;border-radius:99px;padding:0 10px;font-size:12px;font-weight:600;margin:1px 2px 1px 0;border:1px solid}
 .b.ok{color:var(--ok);border-color:var(--ok)}.b.wr{color:var(--wr);border-color:var(--wr)}.b.in{color:var(--c);border-color:var(--c)}.b.er{color:var(--er);border-color:var(--er)}.b.mt{color:var(--mu);border-color:var(--bd)}
 .pg{display:flex;gap:8px;align-items:center;justify-content:center;margin:14px 0;color:var(--mu)}
-.bulk{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(108,99,255,.16);border:1px solid var(--p);border-radius:12px;padding:8px 12px;margin-bottom:10px}
+.bulk{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(242,169,59,.16);border:1px solid var(--p);border-radius:12px;padding:8px 12px;margin-bottom:10px}
 .empty{padding:30px;text-align:center;color:var(--mu)}
 .todo{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd)}.todo:last-child{border:0}.todo div{min-width:0}
 .chart{width:100%;height:auto;color:var(--tx)}
@@ -50,7 +50,7 @@ td .mu{display:block}.ac{display:flex;gap:5px;flex-wrap:wrap}
 @media(max-width:860px){#shell{grid-template-columns:1fr}aside{position:static;height:auto;flex-direction:row;overflow-x:auto;align-items:center;padding:10px}aside .brand,.me{display:none}aside button.nv{width:auto;white-space:nowrap}main{padding:16px 12px}.two{grid-template-columns:1fr}}
 [hidden]{display:none!important}.hb{display:grid;grid-template-columns:minmax(90px,150px) 1fr auto;gap:10px;align-items:center;margin:6px 0;font-size:13px}.hb .hl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ht{background:var(--in);border-radius:99px;height:10px;overflow:hidden}.ht i{display:block;height:100%;background:var(--g);border-radius:99px}.hb b{min-width:34px;text-align:end}
-.hint{background:rgba(0,209,255,.08);border:1px solid rgba(0,209,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--mu)}
+.hint{background:rgba(247,196,106,.08);border:1px solid rgba(247,196,106,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--mu)}
 </style>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
@@ -119,7 +119,7 @@ function go(v){V=VIEWS.some(x=>x[0]==v)?v:'dash';history.replaceState(null,'','#
 // ---------------- dashboard ----------------
 function chart14(){const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-i);days.push(d)}
  const c=days.map(d=>D.bk.filter(b=>{const x=new Date(b.created_at);x.setHours(0,0,0,0);return +x==+d}).length),mx=Math.max(1,...c);
- return'<svg viewBox="0 0 560 140" class="chart" role="img" aria-label="الحجوزات خلال 14 يوماً"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00D1FF"/><stop offset="1" stop-color="#6C63FF"/></linearGradient></defs>'+c.map((n,i)=>{const h=Math.round(n/mx*86);return'<rect x="'+(i*40+8)+'" y="'+(112-h)+'" width="24" height="'+Math.max(h,2)+'" rx="5" fill="url(#cg)" opacity="'+(n?1:.25)+'"/><text x="'+(i*40+20)+'" y="'+(106-h)+'" text-anchor="middle" font-size="11" fill="currentColor">'+(n||'')+'</text><text x="'+(i*40+20)+'" y="130" text-anchor="middle" font-size="10" fill="#9a9cb8">'+days[i].getDate()+'</text>'}).join('')+'</svg>'}
+ return'<svg viewBox="0 0 560 140" class="chart" role="img" aria-label="الحجوزات خلال 14 يوماً"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C46A"/><stop offset="1" stop-color="#F2A93B"/></linearGradient></defs>'+c.map((n,i)=>{const h=Math.round(n/mx*86);return'<rect x="'+(i*40+8)+'" y="'+(112-h)+'" width="24" height="'+Math.max(h,2)+'" rx="5" fill="url(#cg)" opacity="'+(n?1:.25)+'"/><text x="'+(i*40+20)+'" y="'+(106-h)+'" text-anchor="middle" font-size="11" fill="currentColor">'+(n||'')+'</text><text x="'+(i*40+20)+'" y="130" text-anchor="middle" font-size="10" fill="#9a9cb8">'+days[i].getDate()+'</text>'}).join('')+'</svg>'}
 LIST.dash=function(){
  shell('نظرة عامة','<button class="btn" data-a="reload">تحديث</button>');
  const now=new Date(),mo=now.getMonth(),yr=now.getFullYear(),paid=D.bk.filter(b=>b.status=='paid'),pend=D.bk.filter(b=>b.status=='pending');
