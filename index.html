@@ -17,13 +17,15 @@
 <meta property="og:url" content="https://crevaiq.com/"><meta property="og:image" content="https://crevaiq.com/og-image.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/Najwa_Arabic_Regular.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:Najwa;src:url(fonts/Najwa_Arabic_Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
 :root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 --bg:#13131f;--card:#20213c;--tx:#f2f2f8;--mu:#9a9cb8;--bd:rgba(255,255,255,.1);--in:#1A1A2E;--p:#6C63FF;--c:#00D1FF;--ok:#2ED47A;--g:linear-gradient(135deg,#6C63FF,#00D1FF)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 :root[data-theme="light"]{--bg:#f4f5fb;--card:#fff;--tx:#1A1A2E;--mu:#5b5e80;--bd:rgba(26,26,46,.14);--in:#eceefa}
 *,*::before,*::after{box-sizing:inherit}
-html{background:#0a0a16}body{margin:0;background:transparent;overflow-x:clip;color:var(--tx);font-family:Cairo,Tahoma,"Segoe UI",sans-serif;line-height:1.7}
+html{background:#0a0a16}body{margin:0;background:transparent;overflow-x:clip;color:var(--tx);font-family:Najwa,Cairo,Tahoma,"Segoe UI",sans-serif;line-height:1.7}
 a{color:inherit;text-decoration:none}
 .w{max-width:1040px;margin:auto;padding:0 18px}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--bd)}
@@ -32,7 +34,7 @@ header .w{display:flex;align-items:center;gap:18px;height:74px}
 .lg{width:34px;height:34px;border-radius:10px;background:var(--g);transform:rotate(-6deg);display:grid;place-items:center;color:#0d0d1a;font:800 18px Montserrat,sans-serif;letter-spacing:0}
 nav{display:flex;gap:16px;margin-inline-start:auto;color:var(--mu);font-size:14px}
 nav a:hover{color:var(--tx)}
-.btn{display:inline-block;border:0;border-radius:12px;padding:10px 20px;background:var(--g);color:#0d0d1a;font:700 15px Cairo,sans-serif;cursor:pointer}
+.btn{display:inline-block;border:0;border-radius:12px;padding:10px 20px;background:var(--g);color:#0d0d1a;font:700 15px Najwa,Cairo,sans-serif;cursor:pointer}
 .btn.o{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
 :focus-visible{outline:2px solid var(--c);outline-offset:2px}
 h1{font-size:clamp(32px,7vw,56px);line-height:1.2;margin:56px 0 10px;text-align:center;font-weight:800}
@@ -40,11 +42,11 @@ h2{font-size:26px;margin:0 0 4px;font-weight:700}
 .mu{color:var(--mu);font-size:14px}
 .sub{text-align:center;color:var(--mu);max-width:520px;margin:0 auto 22px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
-.chip{border:1px solid var(--bd);background:var(--card);color:var(--mu);border-radius:20px;padding:5px 16px;font:600 13px Cairo,sans-serif;cursor:pointer}
+.chip{border:1px solid var(--bd);background:var(--card);color:var(--mu);border-radius:20px;padding:5px 16px;font:600 13px Najwa,Cairo,sans-serif;cursor:pointer}
 .chip.on{color:var(--tx);border-color:var(--p);box-shadow:0 0 0 1px var(--p) inset}
 .bar{display:flex;flex-wrap:wrap;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;max-width:760px;margin:auto}
 .bar>*{flex:1 1 130px}
-input,select,textarea{width:100%;background:var(--in);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:400 14px Cairo,sans-serif}
+input,select,textarea{width:100%;background:var(--in);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:400 14px Najwa,Cairo,sans-serif}
 textarea{min-height:90px;resize:vertical}
 label{display:block;font-size:13px;color:var(--mu);margin:12px 0 4px}
 section{margin:64px 0}
@@ -79,12 +81,12 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-grad
 #intro .cta{background:none;border-radius:0;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 20px max(26px,env(safe-area-inset-bottom,0px))}
 #intro .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 #intro .big{padding:13px 34px;font-size:18px}
-#intro .cue{background:none;border:0;color:var(--mu);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:600 13px Cairo,sans-serif}
+#intro .cue{background:none;border:0;color:var(--mu);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:600 13px Najwa,Cairo,sans-serif}
 #intro .cue svg{width:22px;height:22px}
 @media(prefers-reduced-motion:no-preference){#intro .cv{animation:kb 16s ease-out both}@keyframes kb{from{transform:scale(1.07)}to{transform:scale(1)}}#intro .cue svg{animation:bob 1.8s ease-in-out infinite}@keyframes bob{50%{transform:translateY(6px)}}#intro .cta{animation:up .9s .3s both}@keyframes up{from{opacity:0;transform:translateY(14px)}}}
 @media(max-aspect-ratio:1/1){#intro{justify-content:center;gap:34px;background:transparent}#intro .cv{position:relative;inset:auto;height:auto;aspect-ratio:16/9;object-fit:contain;-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent)}#intro::after{display:none}#intro .cta{padding-bottom:20px}}
-.acc{width:100%;display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px 20px;color:var(--tx);cursor:pointer;font:600 17px Cairo,sans-serif;text-align:start}
-.acc small{display:block;color:var(--mu);font:400 13px Cairo,sans-serif;margin-top:2px}
+.acc{width:100%;display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px 20px;color:var(--tx);cursor:pointer;font:600 17px Najwa,Cairo,sans-serif;text-align:start}
+.acc small{display:block;color:var(--mu);font:400 13px Najwa,Cairo,sans-serif;margin-top:2px}
 .acc .cnt{margin-inline-start:auto;border:1px solid var(--p);border-radius:20px;padding:2px 12px;font-size:13px}
 .acc svg{width:22px;height:22px;flex:none;transition:transform .25s}.acc[aria-expanded=true] svg{transform:rotate(180deg)}.acc:hover{border-color:var(--p)}
 .lp{margin-top:16px}.lp[hidden]{display:none}.chips.sub2{margin-top:-6px}
